@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Card, Badge, Button } from '@/components/ui'
 import { AGENT_CATEGORIES } from '@/data/mockData'
 import { Activity, ShieldCheck, Play, Pause, Trash2, MessageSquare, Download } from 'lucide-react'
@@ -20,7 +21,11 @@ export default function AgentCard({ agent, onToggle, onDelete, onRun }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <Badge tone={category.tone}>{category.label.split(' ')[0]}</Badge>
-          <h3 className="mt-2 text-base font-semibold text-content">{agent.name}</h3>
+          <Link to={`/app/agents/${agent.id}`}>
+            <h3 className="mt-2 text-base font-semibold text-content hover:text-brand-600">
+              {agent.name}
+            </h3>
+          </Link>
         </div>
         <Badge tone={active ? 'emerald' : 'slate'}>
           <span className="h-1.5 w-1.5 rounded-full bg-current" />

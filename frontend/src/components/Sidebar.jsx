@@ -6,6 +6,8 @@ import {
   BookOpen,
   Plug,
   ShieldCheck,
+  BarChart3,
+  Settings,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -13,7 +15,10 @@ import { cn } from '@/lib/utils'
 const groups = [
   {
     label: 'Platform',
-    items: [{ to: '/app', label: 'Overview', icon: LayoutDashboard, end: true }],
+    items: [
+      { to: '/app', label: 'Overview', icon: LayoutDashboard, end: true },
+      { to: '/app/analytics', label: 'Analytics', icon: BarChart3 },
+    ],
   },
   {
     label: 'Automations',
@@ -32,6 +37,10 @@ const groups = [
   {
     label: 'Security',
     items: [{ to: '/app/guardrails', label: 'Guardrails & RBAC', icon: ShieldCheck }],
+  },
+  {
+    label: 'Workspace',
+    items: [{ to: '/app/settings', label: 'Settings', icon: Settings }],
   },
 ]
 
