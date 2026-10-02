@@ -101,7 +101,7 @@ repo subpath without hard-coding the repo name.
 - [x] Cloud backend (Express) with LLM, RAG pipeline + Supabase pgvector schema
 - [x] RBAC + compliance guardrail middleware & LLM output checker
 - [x] Racing Snail CRM client, Slack, and Outlook/Gmail email senders
+- [x] Document upload parsing (PDF/DOCX/TXT → `/kb/upload`) + wired KB UI
 - [ ] Confirm real CRM API spec; OAuth flow + token refresh for email
-- [ ] Document upload parsing (PDF/DOCX → `/kb/ingest`)
 - [ ] Auth (JWT/session) + multi-tenant workspaces & audit logging
 - [ ] Deploy backend to Render/Vercel and wire `VITE_API_BASE_URL`

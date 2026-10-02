@@ -26,7 +26,8 @@ Point the frontend at it: in `frontend/.env` set
 | POST | `/agents` | Register a custom agent (stub) |
 | POST | `/agents/:id/run` | Run an agent turn through the guardrail pipeline |
 | GET | `/metrics` | Dashboard KPIs |
-| POST | `/kb/ingest` | Chunk + embed + store a document in the knowledge base |
+| POST | `/kb/upload` | Upload PDF/DOCX/TXT/MD/CSV files; parse → chunk → embed → store |
+| POST | `/kb/ingest` | Ingest raw text (chunk + embed + store) |
 | POST | `/kb/query` | RAG query against the knowledge base |
 
 Auth is a stub: send `x-user-role` (`admin` \| `sales` \| `pm` \| `customer`)
@@ -65,9 +66,13 @@ the same code paths make real calls. `GET /health` reports which are live.
    `openai`, plus `EMBEDDINGS_API_KEY` and `EMBEDDINGS_MODEL`.
    **`EMBEDDING_DIM` must match the `vector(N)` dimension in `schema.sql`**
    (voyage-3 = 1024, OpenAI text-embedding-3-small = 1536).
-4. `POST /kb/ingest { text, source?, metadata? }` chunks → embeds → stores.
-   `POST /kb/query { query }` embeds the query, retrieves top matches and answers
-   grounded in them (citing `[n]`).
+4. Add content:
+   - `POST /kb/upload` (multipart, field `files`) — uploads **PDF / DOCX / TXT /
+     MD / CSV** (≤20 MB each, 10 at a time); text is extracted with `unpdf`
+     (PDF) and `mammoth` (DOCX), then chunked, embedded and stored.
+   - `POST /kb/ingest { text, source?, metadata? }` — ingest raw text directly.
+   - `POST /kb/query { query }` — embeds the query, retrieves top matches and
+     answers grounded in them (citing `[n]`).
 
 ### Racing Snail CRM
 
@@ -101,7 +106,6 @@ Every `POST /agents/:id/run` call passes through:
 
 - Confirm Racing Snail's real API paths/fields and adjust the client
 - OAuth authorization-code flow + token storage/refresh for email
-- Document upload parsing (PDF/DOCX → text) feeding `/kb/ingest`
 - Persist custom agents and add audit logging
 - Replace the auth stub with JWT / session verification
 - Enable Supabase RLS policies for tenant/role isolation

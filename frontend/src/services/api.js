@@ -28,4 +28,19 @@ export const api = {
     request('/agents', { method: 'POST', body: JSON.stringify(payload) }),
   queryKnowledgeBase: (query) =>
     request('/kb/query', { method: 'POST', body: JSON.stringify({ query }) }),
+
+  // File upload uses multipart/form-data — do NOT set Content-Type manually
+  // (the browser adds the multipart boundary).
+  uploadDocuments: async (files) => {
+    if (!BASE_URL) {
+      throw new Error('VITE_API_BASE_URL is not set — connect a backend to upload.')
+    }
+    const form = new FormData()
+    for (const file of files) form.append('files', file)
+    const res = await fetch(`${BASE_URL}/kb/upload`, { method: 'POST', body: form })
+    if (!res.ok) {
+      throw new Error(`Upload failed (${res.status}).`)
+    }
+    return res.json()
+  },
 }
