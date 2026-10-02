@@ -141,8 +141,8 @@ export default function CustomBuilder() {
                       className={cn(
                         'rounded-lg border px-3 py-2 text-left text-sm transition-colors',
                         on
-                          ? 'border-brand-500 bg-brand-50 text-brand-700'
-                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300',
+                          ? 'border-brand-500 bg-brand-500/10 text-brand-600 dark:text-brand-300'
+                          : 'border-line bg-surface text-muted hover:border-line',
                       )}
                     >
                       {tool}
@@ -164,7 +164,7 @@ export default function CustomBuilder() {
                 value={form.guardrail}
                 onChange={(e) => update('guardrail', e.target.value)}
               />
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-subtle">
                 These restrictions are injected into every prompt and verified by
                 the output checker before responses are sent.
               </p>
@@ -180,15 +180,15 @@ export default function CustomBuilder() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                <p className="text-xs font-medium uppercase tracking-wide text-subtle">
                   Name
                 </p>
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-content">
                   {form.name || 'Untitled agent'}
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                <p className="text-xs font-medium uppercase tracking-wide text-subtle">
                   Category
                 </p>
                 <Badge tone={AGENT_CATEGORIES[form.category].tone} className="mt-1">
@@ -196,7 +196,7 @@ export default function CustomBuilder() {
                 </Badge>
               </div>
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                <p className="text-xs font-medium uppercase tracking-wide text-subtle">
                   Tools ({form.tools.length})
                 </p>
                 <div className="mt-1 flex flex-wrap gap-1.5">
@@ -204,13 +204,13 @@ export default function CustomBuilder() {
                     form.tools.map((t) => (
                       <span
                         key={t}
-                        className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                        className="rounded-md bg-canvas px-2 py-0.5 text-xs text-muted"
                       >
                         {t}
                       </span>
                     ))
                   ) : (
-                    <span className="text-sm text-slate-400">None selected</span>
+                    <span className="text-sm text-subtle">None selected</span>
                   )}
                 </div>
               </div>
@@ -219,7 +219,7 @@ export default function CustomBuilder() {
                 Create agent
               </Button>
               {saved && (
-                <p className="rounded-lg bg-emerald-50 px-3 py-2 text-center text-sm text-emerald-700">
+                <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-center text-sm text-emerald-600 dark:text-emerald-400">
                   Agent configuration saved (demo). Wire up the backend to deploy.
                 </p>
               )}

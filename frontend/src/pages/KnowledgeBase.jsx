@@ -114,19 +114,19 @@ export default function KnowledgeBase() {
                 }}
                 className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors ${
                   dragOver
-                    ? 'border-brand-500 bg-brand-50/60'
-                    : 'border-slate-300 bg-slate-50 hover:border-brand-400 hover:bg-brand-50/40'
+                    ? 'border-brand-500 bg-brand-500/10'
+                    : 'border-line bg-canvas hover:border-brand-400 hover:bg-brand-500/5'
                 }`}
               >
                 {uploading ? (
                   <Loader2 className="h-8 w-8 animate-spin text-brand-500" />
                 ) : (
-                  <UploadCloud className="h-8 w-8 text-slate-400" />
+                  <UploadCloud className="h-8 w-8 text-subtle" />
                 )}
-                <p className="mt-3 text-sm font-medium text-slate-700">
+                <p className="mt-3 text-sm font-medium text-content">
                   {uploading ? 'Uploading & indexing…' : 'Drop files or click to upload'}
                 </p>
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-xs text-subtle">
                   PDF, DOCX, MD, TXT, CSV — chunked &amp; embedded into the vector store
                 </p>
                 <input
@@ -140,7 +140,7 @@ export default function KnowledgeBase() {
               </div>
 
               {uploadError && (
-                <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-700">
+                <p className="mt-3 rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-600 dark:text-amber-400">
                   {uploadError}
                 </p>
               )}
@@ -150,15 +150,15 @@ export default function KnowledgeBase() {
                   {results.map((r) => (
                     <li
                       key={r.file}
-                      className="flex items-center gap-2 text-sm text-slate-600"
+                      className="flex items-center gap-2 text-sm text-muted"
                     >
                       {r.ok ? (
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
                       ) : (
                         <XCircle className="h-4 w-4 shrink-0 text-rose-500" />
                       )}
-                      <span className="font-medium text-slate-800">{r.file}</span>
-                      <span className="text-slate-400">
+                      <span className="font-medium text-content">{r.file}</span>
+                      <span className="text-subtle">
                         {r.ok ? `· ${r.chunks} chunks (${r.chars} chars)` : `· ${r.error}`}
                       </span>
                     </li>
@@ -173,17 +173,17 @@ export default function KnowledgeBase() {
               <CardTitle>Indexed documents ({docs.length})</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-line">
                 {docs.map((doc) => (
                   <div key={doc.id} className="flex items-center gap-3 px-5 py-3.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-canvas text-muted">
                       <FileText className="h-4 w-4" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-slate-900">
+                      <p className="truncate text-sm font-medium text-content">
                         {doc.name}
                       </p>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-subtle">
                         {doc.type} · {doc.chunks} chunks · updated {doc.updated}
                       </p>
                     </div>
@@ -202,7 +202,7 @@ export default function KnowledgeBase() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
                 <Input
                   className="pl-9"
                   placeholder="e.g. What is the claims SLA?"
@@ -226,12 +226,12 @@ export default function KnowledgeBase() {
               </Button>
 
               {answer && (
-                <div className="rounded-lg bg-slate-50 p-3">
-                  <p className="text-sm text-slate-700">{answer.answer}</p>
+                <div className="rounded-lg bg-canvas p-3">
+                  <p className="text-sm text-content">{answer.answer}</p>
                   {answer.sources?.length > 0 && (
                     <div className="mt-2 space-y-1">
                       {answer.sources.map((s, i) => (
-                        <p key={s.id || i} className="text-xs text-slate-400">
+                        <p key={s.id || i} className="text-xs text-subtle">
                           [{i + 1}] {s.content}
                         </p>
                       ))}
@@ -240,7 +240,7 @@ export default function KnowledgeBase() {
                 </div>
               )}
 
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-subtle">
                 Retrieval runs against the Supabase pgvector store via the backend
                 RAG pipeline.
               </p>

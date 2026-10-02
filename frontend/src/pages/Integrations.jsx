@@ -18,20 +18,20 @@ export default function Integrations() {
             <Card key={item.id}>
               <CardContent className="p-5">
                 <div className="flex items-start justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-canvas text-muted">
                     <Plug className="h-5 w-5" />
                   </div>
                   <Badge tone={connected ? 'emerald' : 'slate'}>
                     {connected ? 'Connected' : 'Not connected'}
                   </Badge>
                 </div>
-                <h3 className="mt-3 text-base font-semibold text-slate-900">
+                <h3 className="mt-3 text-base font-semibold text-content">
                   {item.name}
                 </h3>
-                <p className="text-xs uppercase tracking-wide text-slate-400">
+                <p className="text-xs uppercase tracking-wide text-subtle">
                   {item.kind}
                 </p>
-                <p className="mt-2 text-sm text-slate-500">{item.detail}</p>
+                <p className="mt-2 text-sm text-muted">{item.detail}</p>
                 <Button
                   variant={connected ? 'secondary' : 'primary'}
                   className="mt-4 w-full"
@@ -55,10 +55,10 @@ export default function Integrations() {
       <Card className="mt-6">
         <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-sm font-semibold text-slate-900">
+            <h3 className="text-sm font-semibold text-content">
               No CRM yet?
             </h3>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-muted">
               Spin up a custom CRM schema for clients without an existing system.
             </p>
           </div>

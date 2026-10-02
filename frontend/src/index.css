@@ -2,8 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --- Design tokens --------------------------------------------------- */
 :root {
+  --canvas: 247 248 251;
+  --surface: 255 255 255;
+  --elevated: 255 255 255;
+  --line: 226 232 240;
+  --content: 15 23 42;
+  --muted: 100 116 139;
+  --subtle: 148 163 184;
   color-scheme: light;
+}
+
+.dark {
+  --canvas: 7 11 22;
+  --surface: 15 23 42;
+  --elevated: 23 32 50;
+  --line: 32 42 61;
+  --content: 237 242 249;
+  --muted: 148 163 184;
+  --subtle: 100 116 139;
+  color-scheme: dark;
 }
 
 html,
@@ -14,22 +33,30 @@ body,
 
 body {
   margin: 0;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: rgb(var(--canvas));
+  color: rgb(var(--content));
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Thin, unobtrusive scrollbars for the dashboard shell */
+::selection {
+  background-color: rgb(99 102 241 / 0.25);
+}
+
+/* Thin, theme-aware scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: rgb(var(--subtle) / 0.5) transparent;
 }
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
+  background-color: rgb(var(--subtle) / 0.4);
   border-radius: 9999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--subtle) / 0.7);
 }

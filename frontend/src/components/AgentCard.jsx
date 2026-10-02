@@ -7,11 +7,11 @@ export default function AgentCard({ agent }) {
   const active = agent.status === 'active'
 
   return (
-    <Card className="flex flex-col p-5">
+    <Card interactive className="flex flex-col p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <Badge tone={category.tone}>{category.label.split(' ')[0]}</Badge>
-          <h3 className="mt-2 text-base font-semibold text-slate-900">
+          <h3 className="mt-2 text-base font-semibold text-content">
             {agent.name}
           </h3>
         </div>
@@ -21,28 +21,30 @@ export default function AgentCard({ agent }) {
         </Badge>
       </div>
 
-      <p className="mt-2 flex-1 text-sm text-slate-500">{agent.description}</p>
+      <p className="mt-2 flex-1 text-sm text-muted">{agent.description}</p>
 
-      <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-4">
         <div className="flex items-center gap-2 text-sm">
-          <Activity className="h-4 w-4 text-slate-400" />
-          <span className="font-semibold text-slate-900">{agent.runsToday}</span>
-          <span className="text-slate-400">runs today</span>
+          <Activity className="h-4 w-4 text-subtle" />
+          <span className="font-semibold tabular-nums text-content">
+            {agent.runsToday}
+          </span>
+          <span className="text-subtle">runs</span>
         </div>
         <div className="text-right text-sm">
-          <span className="font-semibold text-slate-900">
+          <span className="font-semibold tabular-nums text-content">
             {Math.round(agent.successRate * 100)}%
           </span>
-          <span className="ml-1 text-slate-400">success</span>
+          <span className="ml-1 text-subtle">success</span>
         </div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        <ShieldCheck className="h-3.5 w-3.5 text-slate-400" />
+        <ShieldCheck className="h-3.5 w-3.5 text-subtle" />
         {agent.guardrails.map((g) => (
           <span
             key={g}
-            className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+            className="rounded-md bg-canvas px-2 py-0.5 text-xs text-muted"
           >
             {g}
           </span>

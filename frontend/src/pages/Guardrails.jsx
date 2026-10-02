@@ -45,13 +45,13 @@ export default function Guardrails() {
         {checks.map(({ icon: Icon, title, desc }) => (
           <Card key={title}>
             <CardContent className="p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-300">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-3 text-sm font-semibold text-slate-900">
+              <h3 className="mt-3 text-sm font-semibold text-content">
                 {title}
               </h3>
-              <p className="mt-1.5 text-sm text-slate-500">{desc}</p>
+              <p className="mt-1.5 text-sm text-muted">{desc}</p>
               <Badge tone="emerald" className="mt-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-current" />
                 Enforced
@@ -64,19 +64,19 @@ export default function Guardrails() {
       <Card className="mt-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <UserCog className="h-4 w-4 text-slate-400" />
+            <UserCog className="h-4 w-4 text-subtle" />
             Role access matrix
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-line">
             {roles.map((r) => (
               <div
                 key={r.role}
                 className="flex items-center justify-between gap-4 px-5 py-4"
               >
                 <Badge tone={r.tone}>{r.role}</Badge>
-                <p className="text-right text-sm text-slate-500">{r.scope}</p>
+                <p className="text-right text-sm text-muted">{r.scope}</p>
               </div>
             ))}
           </div>

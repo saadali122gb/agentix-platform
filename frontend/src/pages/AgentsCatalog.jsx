@@ -33,8 +33,8 @@ export default function AgentsCatalog() {
             className={cn(
               'rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors',
               active === f.key
-                ? 'bg-brand-600 text-white'
-                : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50',
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'bg-surface text-muted ring-1 ring-line hover:bg-canvas hover:text-content',
             )}
           >
             {f.label}
@@ -48,11 +48,11 @@ export default function AgentsCatalog() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center">
-        <p className="text-sm font-medium text-slate-700">
+      <div className="mt-8 rounded-2xl border border-dashed border-line bg-surface p-8 text-center">
+        <p className="text-sm font-medium text-content">
           Need something tailored?
         </p>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-muted">
           Build an agent around your own workflow with the Custom Builder.
         </p>
         <Button className="mt-4" onClick={() => (window.location.hash = '#/builder')}>

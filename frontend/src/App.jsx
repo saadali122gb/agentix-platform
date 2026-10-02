@@ -11,8 +11,8 @@ import { Button } from '@/components/ui'
 function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <p className="text-5xl font-bold text-slate-200">404</p>
-      <p className="mt-2 text-sm text-slate-500">This page doesn’t exist.</p>
+      <p className="text-6xl font-bold text-line">404</p>
+      <p className="mt-2 text-sm text-muted">This page doesn’t exist.</p>
       <Link to="/">
         <Button className="mt-4">Back to overview</Button>
       </Link>

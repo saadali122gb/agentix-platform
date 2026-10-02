@@ -1,11 +1,13 @@
 import { cn } from '@/lib/utils'
 
 /* --- Card ------------------------------------------------------------- */
-export function Card({ className, ...props }) {
+export function Card({ className, interactive = false, ...props }) {
   return (
     <div
       className={cn(
-        'rounded-xl border border-slate-200 bg-white shadow-sm',
+        'rounded-2xl border border-line bg-surface shadow-card',
+        interactive &&
+          'transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover hover:border-brand-300/60',
         className,
       )}
       {...props}
@@ -20,7 +22,7 @@ export function CardHeader({ className, ...props }) {
 export function CardTitle({ className, ...props }) {
   return (
     <h3
-      className={cn('text-sm font-semibold text-slate-900', className)}
+      className={cn('text-sm font-semibold text-content', className)}
       {...props}
     />
   )
@@ -33,19 +35,26 @@ export function CardContent({ className, ...props }) {
 /* --- Button ----------------------------------------------------------- */
 const buttonVariants = {
   primary:
-    'bg-brand-600 text-white hover:bg-brand-700 focus-visible:ring-brand-500',
+    'bg-brand-600 text-white shadow-sm hover:bg-brand-500 focus-visible:ring-brand-500',
   secondary:
-    'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus-visible:ring-slate-400',
-  ghost: 'text-slate-600 hover:bg-slate-100 focus-visible:ring-slate-400',
-  danger: 'bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-500',
+    'bg-surface text-content border border-line hover:bg-canvas focus-visible:ring-brand-500',
+  ghost: 'text-muted hover:bg-canvas hover:text-content focus-visible:ring-brand-500',
+  danger: 'bg-rose-600 text-white shadow-sm hover:bg-rose-500 focus-visible:ring-rose-500',
 }
 
-export function Button({ className, variant = 'primary', ...props }) {
+const buttonSizes = {
+  sm: 'px-3 py-1.5 text-xs',
+  md: 'px-4 py-2 text-sm',
+  lg: 'px-5 py-2.5 text-sm',
+}
+
+export function Button({ className, variant = 'primary', size = 'md', ...props }) {
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-50',
         buttonVariants[variant],
+        buttonSizes[size],
         className,
       )}
       {...props}
@@ -55,13 +64,15 @@ export function Button({ className, variant = 'primary', ...props }) {
 
 /* --- Badge ------------------------------------------------------------ */
 const toneStyles = {
-  emerald: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
-  sky: 'bg-sky-50 text-sky-700 ring-sky-600/20',
-  violet: 'bg-violet-50 text-violet-700 ring-violet-600/20',
-  amber: 'bg-amber-50 text-amber-700 ring-amber-600/20',
-  rose: 'bg-rose-50 text-rose-700 ring-rose-600/20',
-  slate: 'bg-slate-100 text-slate-600 ring-slate-500/20',
-  brand: 'bg-brand-50 text-brand-700 ring-brand-600/20',
+  emerald:
+    'bg-emerald-500/10 text-emerald-600 ring-emerald-500/20 dark:text-emerald-400',
+  sky: 'bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:text-sky-400',
+  violet:
+    'bg-violet-500/10 text-violet-600 ring-violet-500/20 dark:text-violet-400',
+  amber: 'bg-amber-500/10 text-amber-600 ring-amber-500/20 dark:text-amber-400',
+  rose: 'bg-rose-500/10 text-rose-600 ring-rose-500/20 dark:text-rose-400',
+  slate: 'bg-subtle/10 text-muted ring-subtle/20',
+  brand: 'bg-brand-500/10 text-brand-600 ring-brand-500/20 dark:text-brand-300',
 }
 
 export function Badge({ className, tone = 'slate', ...props }) {
@@ -78,39 +89,20 @@ export function Badge({ className, tone = 'slate', ...props }) {
 }
 
 /* --- Form fields ------------------------------------------------------ */
+const fieldBase =
+  'w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-content placeholder:text-subtle focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/25'
+
 export function Input({ className, ...props }) {
-  return (
-    <input
-      className={cn(
-        'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30',
-        className,
-      )}
-      {...props}
-    />
-  )
+  return <input className={cn(fieldBase, className)} {...props} />
 }
 
 export function Textarea({ className, ...props }) {
-  return (
-    <textarea
-      className={cn(
-        'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30',
-        className,
-      )}
-      {...props}
-    />
-  )
+  return <textarea className={cn(fieldBase, className)} {...props} />
 }
 
 export function Select({ className, children, ...props }) {
   return (
-    <select
-      className={cn(
-        'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30',
-        className,
-      )}
-      {...props}
-    >
+    <select className={cn(fieldBase, className)} {...props}>
       {children}
     </select>
   )
@@ -119,7 +111,7 @@ export function Select({ className, children, ...props }) {
 export function Label({ className, ...props }) {
   return (
     <label
-      className={cn('mb-1.5 block text-sm font-medium text-slate-700', className)}
+      className={cn('mb-1.5 block text-sm font-medium text-content', className)}
       {...props}
     />
   )
