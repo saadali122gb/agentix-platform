@@ -25,7 +25,17 @@ function providerForModel(model) {
  * @param {{ system?: string, messages: {role,content}[], maxTokens?: number, model?: string }} opts
  */
 export async function complete({ system, messages, maxTokens = 1024, model, json = false }) {
-  const provider = providerForModel(model)
+  let provider = providerForModel(model)
+
+  // If the chosen provider has no key but the other does, fall back to it
+  // (and drop the model id so the fallback uses its own default model).
+  if (provider === 'anthropic' && !features.llm && features.gemini) {
+    provider = 'gemini'
+    model = undefined
+  } else if (provider === 'gemini' && !features.gemini && features.llm) {
+    provider = 'anthropic'
+    model = undefined
+  }
 
   if (provider === 'gemini') {
     return features.gemini
