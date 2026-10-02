@@ -1,0 +1,25 @@
+# Render Blueprint — deploys the Agentix AI backend.
+# In Render: New → Blueprint → connect this repo → apply.
+# You'll be prompted to enter GEMINI_API_KEY once (kept secret on Render).
+services:
+  - type: web
+    name: agentix-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-flash-lite-latest
+      - key: EMBEDDINGS_PROVIDER
+        value: gemini
+      - key: EMBEDDINGS_MODEL
+        value: gemini-embedding-001
+      - key: CORS_ORIGIN
+        value: https://saadali122gb.github.io,http://localhost:5173
