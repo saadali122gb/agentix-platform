@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
-  Github,
   Download,
   Bot,
   Zap,
@@ -15,7 +14,6 @@ import { LogoBadge } from '@/components/Logo'
 import { STARTER_AGENTS } from '@/data/starterAgents'
 import { AGENT_CATEGORIES } from '@/data/mockData'
 import { downloadJSON, slugify } from '@/lib/download'
-import { GITHUB_URL } from '@/lib/site'
 
 const features = [
   { icon: Zap, title: 'Offensive automations', desc: 'Lead generation, outbound and renewal tracking that grows revenue.' },
@@ -189,19 +187,11 @@ export default function Home() {
       {/* Downloadable agents */}
       <section className="border-y border-line bg-surface/50">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">Pre-built agents</h2>
-              <p className="mt-2 max-w-2xl text-muted">
-                Download any agent as a JSON config, or grab them all. Open the
-                GitHub repo to browse and contribute.
-              </p>
-            </div>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Button variant="secondary">
-                <Github className="h-4 w-4" /> Open GitHub repo
-              </Button>
-            </a>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Pre-built agents</h2>
+            <p className="mt-2 max-w-2xl text-muted">
+              Download any agent as a JSON config, or grab them all.
+            </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

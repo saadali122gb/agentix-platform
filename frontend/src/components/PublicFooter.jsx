@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Github, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { Logo } from '@/components/Logo'
-import { GITHUB_URL, COMPANY } from '@/lib/site'
+import { COMPANY } from '@/lib/site'
 
 export default function PublicFooter() {
   return (
@@ -18,18 +18,11 @@ export default function PublicFooter() {
               Launch the platform and run your first guardrailed agent in minutes.
             </p>
           </div>
-          <div className="flex gap-2">
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Button variant="secondary">
-                <Github className="h-4 w-4" /> GitHub
-              </Button>
-            </a>
-            <Link to="/app">
-              <Button>
-                Launch app <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+          <Link to="/app">
+            <Button>
+              Launch app <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
 
