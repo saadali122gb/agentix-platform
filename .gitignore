@@ -24,3 +24,7 @@ Thumbs.db
 
 # Vite
 .vite/
+
+# Local dev data (file-backed vector store, etc.)
+.data/
+**/.data/

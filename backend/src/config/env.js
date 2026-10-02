@@ -1,5 +1,27 @@
 import 'dotenv/config'
 
+// Embeddings provider. 'gemini' reuses GEMINI_API_KEY so one key powers
+// chat + search. 'voyage'/'openai' use EMBEDDINGS_API_KEY.
+function embeddingsConfig() {
+  const provider = (process.env.EMBEDDINGS_PROVIDER || 'voyage').toLowerCase()
+  const defaultModel =
+    provider === 'gemini'
+      ? 'gemini-embedding-001'
+      : provider === 'openai'
+        ? 'text-embedding-3-small'
+        : 'voyage-3'
+  const apiKey =
+    process.env.EMBEDDINGS_API_KEY ||
+    (provider === 'gemini' ? process.env.GEMINI_API_KEY || '' : '')
+  return {
+    provider,
+    apiKey,
+    model: process.env.EMBEDDINGS_MODEL || defaultModel,
+    // Only used for mock vectors and the Supabase pgvector column.
+    dim: Number(process.env.EMBEDDING_DIM) || 768,
+  }
+}
+
 /** Centralized, typed access to environment configuration. */
 export const config = {
   port: Number(process.env.PORT) || 8787,
@@ -24,15 +46,7 @@ export const config = {
       (process.env.ANTHROPIC_API_KEY ? 'anthropic' : process.env.GEMINI_API_KEY ? 'gemini' : 'anthropic'),
   },
 
-  embeddings: {
-    // 'voyage' (Anthropic-recommended) or 'openai'
-    provider: (process.env.EMBEDDINGS_PROVIDER || 'voyage').toLowerCase(),
-    apiKey: process.env.EMBEDDINGS_API_KEY || '',
-    model: process.env.EMBEDDINGS_MODEL || 'voyage-3',
-    // Must match the vector(N) column dimension in db/schema.sql.
-    // voyage-3 = 1024, OpenAI text-embedding-3-small = 1536.
-    dim: Number(process.env.EMBEDDING_DIM) || 1024,
-  },
+  embeddings: embeddingsConfig(),
 
   supabase: {
     url: process.env.SUPABASE_URL || '',
