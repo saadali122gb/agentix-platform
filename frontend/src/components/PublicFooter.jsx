@@ -9,7 +9,7 @@ export default function PublicFooter() {
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           <div className="max-w-xs">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <p className="text-sm font-bold tracking-tight">Agentix</p>

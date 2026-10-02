@@ -81,7 +81,7 @@ export default function Topbar({ onMenuClick }) {
             onClick={() => setMenuOpen((v) => !v)}
             className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-canvas"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xs font-semibold uppercase text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-xs font-semibold uppercase text-white">
               {initials(name) || 'U'}
             </div>
             <div className="hidden leading-tight sm:block">

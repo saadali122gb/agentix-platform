@@ -11,7 +11,7 @@ export default function PublicNav() {
     <header className="sticky top-0 z-30 border-b border-line bg-surface/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div className="leading-tight">
