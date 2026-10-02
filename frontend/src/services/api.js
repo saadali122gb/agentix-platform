@@ -30,10 +30,10 @@ export const api = {
     request('/kb/query', { method: 'POST', body: JSON.stringify({ query }) }),
 
   // Run an agent turn through the backend guardrail pipeline.
-  runAgent: ({ name, category, instructions, input }) =>
+  runAgent: ({ name, category, instructions, input, model }) =>
     request('/agents/run', {
       method: 'POST',
-      body: JSON.stringify({ name, category, instructions, input }),
+      body: JSON.stringify({ name, category, instructions, input, model }),
     }),
 
   // File upload uses multipart/form-data — do NOT set Content-Type manually

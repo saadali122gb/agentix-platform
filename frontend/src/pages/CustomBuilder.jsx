@@ -132,9 +132,15 @@ export default function CustomBuilder() {
                     value={form.model}
                     onChange={(e) => update('model', e.target.value)}
                   >
-                    <option value="claude-opus-4-8">Claude Opus 4.8</option>
-                    <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
-                    <option value="claude-haiku-4-5">Claude Haiku 4.5</option>
+                    <optgroup label="Anthropic (strong guardrails)">
+                      <option value="claude-opus-4-8">Claude Opus 4.8</option>
+                      <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
+                      <option value="claude-haiku-4-5">Claude Haiku 4.5</option>
+                    </optgroup>
+                    <optgroup label="Google Gemini (low cost / high volume)">
+                      <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                      <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    </optgroup>
                   </Select>
                 </div>
               </div>

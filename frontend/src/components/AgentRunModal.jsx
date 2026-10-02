@@ -50,6 +50,7 @@ export default function AgentRunModal({ agent, onClose }) {
         category: agent.category,
         instructions: agent.instructions || '',
         input: text,
+        model: agent.model,
       })
       if (res.blocked) {
         setMessages((m) => [...m, { role: 'blocked', text: res.reason }])

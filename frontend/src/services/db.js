@@ -35,7 +35,7 @@ export const STARTER_AGENTS = [
     category: 'defensive',
     description:
       'Automates reminders, follow-ups and calendar scheduling for brokers and PMs.',
-    model: 'claude-sonnet-5-5',
+    model: 'gemini-2.5-flash',
     instructions:
       'Automate reminders, follow-ups and scheduling. Confirm before creating or modifying calendar events.',
     tools: ['Schedule meeting', 'Slack notify'],
@@ -48,7 +48,7 @@ export const STARTER_AGENTS = [
     name: 'Automated Data Entry',
     category: 'defensive',
     description: 'Extracts data from customer interactions and updates CRM records.',
-    model: 'claude-sonnet-5-5',
+    model: 'gemini-2.5-flash',
     instructions:
       'Extract structured data from interactions and update CRM records. Flag low-confidence extractions for human review.',
     tools: ['CRM update'],

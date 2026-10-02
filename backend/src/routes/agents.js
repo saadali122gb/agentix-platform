@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 // guardrail pipeline. Used by user-created agents stored in the frontend DB.
 router.post('/run', async (req, res, next) => {
   try {
-    const { name, category, instructions, input } = req.body || {}
+    const { name, category, instructions, input, model } = req.body || {}
     if (!category || !input) {
       return res.status(400).json({
         error: 'ValidationError',
@@ -38,6 +38,7 @@ router.post('/run', async (req, res, next) => {
       name: name || 'Custom agent',
       category,
       instructions: instructions || '',
+      model,
     }
     const result = await runAgent(agent, {
       role: req.user.role,

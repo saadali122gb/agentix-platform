@@ -22,6 +22,7 @@ export async function runAgent(agent, { role, userId, input }) {
     system,
     messages: [{ role: 'user', content: input }],
     maxTokens: 800,
+    model: agent.model,
   })
 
   const verdict = await checkOutput(draft.text)

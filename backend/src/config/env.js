@@ -13,6 +13,17 @@ export const config = {
     model: process.env.ANTHROPIC_MODEL || 'claude-opus-4-8',
   },
 
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY || '',
+    model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+  },
+
+  llm: {
+    // Fallback provider when a model id doesn't indicate one.
+    defaultProvider: (process.env.LLM_PROVIDER || '').toLowerCase() ||
+      (process.env.ANTHROPIC_API_KEY ? 'anthropic' : process.env.GEMINI_API_KEY ? 'gemini' : 'anthropic'),
+  },
+
   embeddings: {
     // 'voyage' (Anthropic-recommended) or 'openai'
     provider: (process.env.EMBEDDINGS_PROVIDER || 'voyage').toLowerCase(),
@@ -47,6 +58,7 @@ export const config = {
 /** Feature flags derived from which credentials are present. */
 export const features = {
   llm: Boolean(config.anthropic.apiKey),
+  gemini: Boolean(config.gemini.apiKey),
   embeddings: Boolean(config.embeddings.apiKey),
   vectorStore: Boolean(config.supabase.url && config.supabase.serviceRoleKey),
   crm: Boolean(config.racingSnail.apiUrl && config.racingSnail.apiKey),
