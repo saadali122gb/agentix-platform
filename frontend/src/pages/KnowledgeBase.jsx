@@ -16,18 +16,21 @@ import { listDocuments } from '@/services/db'
 const statusTone = { indexed: 'emerald', processing: 'amber', failed: 'rose' }
 const ACCEPT = '.pdf,.docx,.txt,.md,.csv'
 
+function docType(mimetype = '') {
+  if (mimetype.includes('pdf')) return 'PDF'
+  if (mimetype.includes('word')) return 'DOCX'
+  return 'Document'
+}
+
+// Backend /kb/documents returns { source, chunks, mimetype }.
 function toDoc(row) {
   return {
-    id: row.id,
+    id: row.source,
     name: row.source || 'Untitled',
-    type: row.metadata?.mimetype?.includes('pdf')
-      ? 'PDF'
-      : row.metadata?.mimetype?.includes('word')
-        ? 'DOCX'
-        : 'Document',
-    chunks: row.metadata?.chunk != null ? row.metadata.chunk + 1 : 1,
+    type: docType(row.mimetype),
+    chunks: row.chunks ?? 1,
     status: 'indexed',
-    updated: (row.created_at || '').slice(0, 10),
+    updated: '',
   }
 }
 
@@ -41,8 +44,20 @@ export default function KnowledgeBase() {
   const [dragOver, setDragOver] = useState(false)
 
   useEffect(() => {
-    listDocuments()
-      .then((rows) => setDocs(rows.map(toDoc)))
+    const load = isBackendConfigured
+      ? api.listKbDocuments().then((r) => (r.documents || []).map(toDoc))
+      : listDocuments().then((rows) =>
+          rows.map((row) => ({
+            id: row.id,
+            name: row.source || 'Untitled',
+            type: docType(row.metadata?.mimetype),
+            chunks: 1,
+            status: 'indexed',
+            updated: (row.created_at || '').slice(0, 10),
+          })),
+        )
+    load
+      .then(setDocs)
       .catch(() => {})
       .finally(() => setLoadingDocs(false))
   }, [])
@@ -274,8 +289,8 @@ export default function KnowledgeBase() {
               )}
 
               <p className="text-xs text-subtle">
-                Retrieval runs against the Supabase pgvector store via the backend
-                RAG pipeline.
+                Answers come only from your uploaded documents (Gemini embeddings
+                + RAG). Upload files first, then ask about their contents.
               </p>
             </CardContent>
           </Card>

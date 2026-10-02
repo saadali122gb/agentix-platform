@@ -2,6 +2,7 @@ import { Router } from 'express'
 import multer from 'multer'
 import { answerFromKnowledgeBase } from '../rag/pipeline.js'
 import { ingestDocument } from '../rag/ingest.js'
+import { listStoredDocuments } from '../rag/vectorStore.js'
 import { parseDocument } from '../lib/parseDocument.js'
 
 const router = Router()
@@ -62,6 +63,15 @@ router.post('/ingest', async (req, res, next) => {
     }
     const result = await ingestDocument({ text, source, metadata })
     res.status(201).json(result)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /kb/documents — list ingested documents (grouped by source)
+router.get('/documents', async (_req, res, next) => {
+  try {
+    res.json({ documents: await listStoredDocuments() })
   } catch (err) {
     next(err)
   }

@@ -61,6 +61,34 @@ export async function insertChunks(rows) {
   return { mock: false, inserted: data.length, ids: data.map((d) => d.id) }
 }
 
+/** List ingested documents grouped by source (for the KB document list). */
+export async function listStoredDocuments() {
+  const db = getSupabase()
+  if (!db) {
+    const grouped = new Map()
+    for (const r of loadLocal()) {
+      const key = r.source || 'Untitled'
+      const e = grouped.get(key) || { source: key, chunks: 0, mimetype: r.metadata?.mimetype }
+      e.chunks += 1
+      grouped.set(key, e)
+    }
+    return [...grouped.values()]
+  }
+  const { data, error } = await db
+    .from('documents')
+    .select('source, metadata')
+    .order('created_at', { ascending: false })
+  if (error) throw new Error(`Supabase list failed: ${error.message}`)
+  const grouped = new Map()
+  for (const r of data) {
+    const key = r.source || 'Untitled'
+    const e = grouped.get(key) || { source: key, chunks: 0, mimetype: r.metadata?.mimetype }
+    e.chunks += 1
+    grouped.set(key, e)
+  }
+  return [...grouped.values()]
+}
+
 /** Cosine-similarity search (Supabase pgvector, or the local store). */
 export async function similaritySearch(embedding, matchCount = 5) {
   const db = getSupabase()

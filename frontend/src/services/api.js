@@ -29,6 +29,8 @@ export const api = {
   queryKnowledgeBase: (query) =>
     request('/kb/query', { method: 'POST', body: JSON.stringify({ query }) }),
 
+  listKbDocuments: () => request('/kb/documents'),
+
   // Run an agent turn through the backend guardrail pipeline.
   runAgent: ({ name, category, instructions, input, model }) =>
     request('/agents/run', {
