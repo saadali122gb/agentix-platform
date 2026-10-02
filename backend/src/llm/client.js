@@ -24,12 +24,12 @@ function providerForModel(model) {
  *
  * @param {{ system?: string, messages: {role,content}[], maxTokens?: number, model?: string }} opts
  */
-export async function complete({ system, messages, maxTokens = 1024, model }) {
+export async function complete({ system, messages, maxTokens = 1024, model, json = false }) {
   const provider = providerForModel(model)
 
   if (provider === 'gemini') {
     return features.gemini
-      ? completeGemini({ system, messages, maxTokens, model: model || config.gemini.model })
+      ? completeGemini({ system, messages, maxTokens, model: model || config.gemini.model, json })
       : mock('GEMINI_API_KEY')
   }
 
@@ -51,7 +51,7 @@ async function completeAnthropic({ system, messages, maxTokens, model }) {
   return { mock: false, provider: 'anthropic', model, text, usage: res.usage }
 }
 
-async function completeGemini({ system, messages, maxTokens, model }) {
+async function completeGemini({ system, messages, maxTokens, model, json = false }) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
   const contents = messages.map((m) => ({
     role: m.role === 'assistant' ? 'model' : 'user',
@@ -60,6 +60,7 @@ async function completeGemini({ system, messages, maxTokens, model }) {
 
   const data = await fetchJson(url, {
     method: 'POST',
+    timeoutMs: 60000,
     headers: {
       'Content-Type': 'application/json',
       'x-goog-api-key': config.gemini.apiKey,
@@ -67,7 +68,10 @@ async function completeGemini({ system, messages, maxTokens, model }) {
     body: JSON.stringify({
       ...(system ? { system_instruction: { parts: [{ text: system }] } } : {}),
       contents,
-      generationConfig: { maxOutputTokens: maxTokens },
+      generationConfig: {
+        maxOutputTokens: maxTokens,
+        ...(json ? { responseMimeType: 'application/json' } : {}),
+      },
     }),
   })
 

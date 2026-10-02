@@ -138,8 +138,9 @@ export default function CustomBuilder() {
                       <option value="claude-haiku-4-5">Claude Haiku 4.5</option>
                     </optgroup>
                     <optgroup label="Google Gemini (low cost / high volume)">
-                      <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                      <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                      <option value="gemini-flash-lite-latest">Gemini Flash-Lite (fast, cheap)</option>
+                      <option value="gemini-flash-latest">Gemini Flash (latest)</option>
+                      <option value="gemini-pro-latest">Gemini Pro (latest)</option>
                     </optgroup>
                   </Select>
                 </div>

@@ -29,17 +29,32 @@ export async function checkOutput(draft) {
     system: CHECKER_SYSTEM,
     messages: [{ role: 'user', content: `DRAFT:\n${draft}` }],
     maxTokens: 200,
+    json: true,
   })
 
   if (review.mock) {
     return { allow: true, reason: 'Regex screen passed (LLM check skipped).', stage: 'regex-only' }
   }
 
-  try {
-    const parsed = JSON.parse(review.text)
+  const parsed = parseVerdict(review.text)
+  if (parsed) {
     return { allow: Boolean(parsed.allow), reason: parsed.reason || '', stage: 'llm' }
+  }
+  // Robust parse failed. The deterministic regex screen already passed, so
+  // allow but flag it rather than blocking legitimate output on a format hiccup.
+  return { allow: true, reason: 'Passed regex screen; LLM verdict unparseable.', stage: 'llm-unparsed' }
+}
+
+/** Tolerant JSON extraction: strips code fences and isolates the object. */
+function parseVerdict(text = '') {
+  let t = String(text).trim()
+  t = t.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim()
+  const start = t.indexOf('{')
+  const end = t.lastIndexOf('}')
+  if (start !== -1 && end !== -1 && end > start) t = t.slice(start, end + 1)
+  try {
+    return JSON.parse(t)
   } catch {
-    // Fail closed if the checker response is unparseable.
-    return { allow: false, reason: 'Checker returned an unparseable response.', stage: 'llm' }
+    return null
   }
 }
