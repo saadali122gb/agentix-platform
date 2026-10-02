@@ -37,9 +37,11 @@ jobs:
         run: npm ci
 
       - name: Build
-        # Set the backend URL in repo Settings → Variables (optional).
-        # Blank falls back to demo/mock mode.
+        # Set these in repo Settings → Secrets and variables → Actions.
+        # Supabase vars enable auth + database; API base URL enables AI features.
         env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: npm run build
 

@@ -1,5 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import Layout from '@/components/Layout'
+import ProtectedRoute from '@/components/ProtectedRoute'
+import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
 import AgentsCatalog from '@/pages/AgentsCatalog'
 import CustomBuilder from '@/pages/CustomBuilder'
@@ -23,7 +25,15 @@ function NotFound() {
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/login" element={<Login />} />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Dashboard />} />
         <Route path="agents" element={<AgentsCatalog />} />
         <Route path="builder" element={<CustomBuilder />} />

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   ResponsiveContainer,
   AreaChart,
@@ -7,17 +9,12 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts'
-import { Bot, Zap, ShieldAlert, RefreshCw, Plus } from 'lucide-react'
+import { Bot, Zap, ShieldAlert, RefreshCw, Plus, Loader2 } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import MetricCard from '@/components/MetricCard'
 import { Card, CardHeader, CardTitle, CardContent, Button } from '@/components/ui'
-import {
-  metrics,
-  activityTrend,
-  recentActivity,
-  agents,
-  AGENT_CATEGORIES,
-} from '@/data/mockData'
+import { activityTrend, AGENT_CATEGORIES } from '@/data/mockData'
+import { listAgents, listActivity } from '@/services/db'
 import { useTheme } from '@/theme/ThemeProvider'
 import { cn } from '@/lib/utils'
 
@@ -28,7 +25,6 @@ const dotTone = {
   sky: 'bg-sky-500',
   rose: 'bg-rose-500',
 }
-
 const barTone = {
   emerald: 'bg-emerald-500',
   sky: 'bg-sky-500',
@@ -36,11 +32,26 @@ const barTone = {
   amber: 'bg-amber-500',
 }
 
-function categoryBreakdown() {
-  const totalRuns = agents.reduce((s, a) => s + a.runsToday, 0) || 1
+function computeMetrics(agents) {
+  const active = agents.filter((a) => a.status === 'active')
+  const runsToday = agents.reduce((s, a) => s + (a.runs_today || 0), 0)
+  const avg =
+    agents.length > 0
+      ? agents.reduce((s, a) => s + (a.success_rate || 0), 0) / agents.length
+      : 0
+  return {
+    activeAgents: active.length,
+    totalAgents: agents.length,
+    runsToday,
+    avgSuccessRate: avg,
+  }
+}
+
+function categoryBreakdown(agents) {
+  const totalRuns = agents.reduce((s, a) => s + (a.runs_today || 0), 0) || 1
   return Object.entries(AGENT_CATEGORIES).map(([key, v]) => {
     const list = agents.filter((a) => a.category === key)
-    const runs = list.reduce((s, a) => s + a.runsToday, 0)
+    const runs = list.reduce((s, a) => s + (a.runs_today || 0), 0)
     return {
       key,
       label: v.label.split(' ')[0],
@@ -52,11 +63,45 @@ function categoryBreakdown() {
   })
 }
 
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.round(diff / 60000)
+  if (mins < 1) return 'just now'
+  if (mins < 60) return `${mins} min ago`
+  const hrs = Math.round(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  return `${Math.round(hrs / 24)}d ago`
+}
+
 export default function Dashboard() {
   const { isDark } = useTheme()
+  const navigate = useNavigate()
+  const [agents, setAgents] = useState([])
+  const [activity, setActivity] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    Promise.all([listAgents(), listActivity(6)])
+      .then(([a, act]) => {
+        setAgents(a)
+        setActivity(act)
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
   const grid = isDark ? '#1e293b' : '#e2e8f0'
   const tick = isDark ? '#94a3b8' : '#64748b'
-  const breakdown = categoryBreakdown()
+  const metrics = computeMetrics(agents)
+  const breakdown = categoryBreakdown(agents)
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24">
+        <Loader2 className="h-6 w-6 animate-spin text-brand-500" />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -64,17 +109,29 @@ export default function Dashboard() {
         title="Overview"
         subtitle="Live view of deployed agents, performance and compliance."
         actions={
-          <Button>
+          <Button onClick={() => navigate('/builder')}>
             <Plus className="h-4 w-4" /> New agent
           </Button>
         }
       />
 
+      {agents.length === 0 && (
+        <Card className="mb-6 p-6 text-center">
+          <p className="text-sm font-medium text-content">No agents deployed yet</p>
+          <p className="mt-1 text-sm text-muted">
+            Head to the catalog to install starter agents or build your own.
+          </p>
+          <Button className="mt-4" onClick={() => navigate('/agents')}>
+            Go to Agents Catalog
+          </Button>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Active agents" value={`${metrics.activeAgents} / ${metrics.totalAgents}`} delta={12} icon={Bot} tone="brand" />
-        <MetricCard label="Runs today" value={metrics.runsToday.toLocaleString()} delta={8} icon={Zap} tone="emerald" />
-        <MetricCard label="Avg success rate" value={`${Math.round(metrics.avgSuccessRate * 100)}%`} delta={2} icon={RefreshCw} tone="sky" />
-        <MetricCard label="Guardrail blocks" value={metrics.guardrailBlocks} delta={-5} icon={ShieldAlert} tone="rose" />
+        <MetricCard label="Active agents" value={`${metrics.activeAgents} / ${metrics.totalAgents}`} icon={Bot} tone="brand" />
+        <MetricCard label="Runs today" value={metrics.runsToday.toLocaleString()} icon={Zap} tone="emerald" />
+        <MetricCard label="Avg success rate" value={`${Math.round(metrics.avgSuccessRate * 100)}%`} icon={RefreshCw} tone="sky" />
+        <MetricCard label="Guardrail blocks" value={0} icon={ShieldAlert} tone="rose" />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -117,50 +174,54 @@ export default function Dashboard() {
             <CardTitle>Recent activity</CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
-            <ul className="space-y-4">
-              {recentActivity.map((item) => (
-                <li key={item.id} className="flex gap-3">
-                  <span className={cn('mt-1.5 h-2 w-2 shrink-0 rounded-full', dotTone[item.tone])} />
-                  <div className="min-w-0">
-                    <p className="text-sm text-content">{item.event}</p>
-                    <p className="mt-0.5 text-xs text-subtle">
-                      {item.agent} · {item.time}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {activity.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted">No activity yet.</p>
+            ) : (
+              <ul className="space-y-4">
+                {activity.map((item) => (
+                  <li key={item.id} className="flex gap-3">
+                    <span className={cn('mt-1.5 h-2 w-2 shrink-0 rounded-full', dotTone[item.tone] || 'bg-sky-500')} />
+                    <div className="min-w-0">
+                      <p className="text-sm text-content">{item.event}</p>
+                      <p className="mt-0.5 text-xs text-subtle">
+                        {item.agent_name ? `${item.agent_name} · ` : ''}
+                        {timeAgo(item.created_at)}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </CardContent>
         </Card>
       </div>
 
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Agents by category</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {breakdown.map((c) => (
-            <div key={c.key}>
-              <div className="flex items-baseline justify-between">
-                <p className="text-sm font-medium text-content">{c.label}</p>
-                <p className="text-xs text-subtle">{c.count} agents</p>
+      {agents.length > 0 && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Agents by category</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {breakdown.map((c) => (
+              <div key={c.key}>
+                <div className="flex items-baseline justify-between">
+                  <p className="text-sm font-medium text-content">{c.label}</p>
+                  <p className="text-xs text-subtle">{c.count} agents</p>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-canvas">
+                  <div className={cn('h-full rounded-full', barTone[c.tone])} style={{ width: `${Math.max(c.pct, 3)}%` }} />
+                </div>
+                <p className="mt-1.5 text-xs text-muted">
+                  <span className="font-semibold tabular-nums text-content">
+                    {c.runs.toLocaleString()}
+                  </span>{' '}
+                  runs · {c.pct}%
+                </p>
               </div>
-              <div className="mt-2 h-2 overflow-hidden rounded-full bg-canvas">
-                <div
-                  className={cn('h-full rounded-full', barTone[c.tone])}
-                  style={{ width: `${Math.max(c.pct, 3)}%` }}
-                />
-              </div>
-              <p className="mt-1.5 text-xs text-muted">
-                <span className="font-semibold tabular-nums text-content">
-                  {c.runs.toLocaleString()}
-                </span>{' '}
-                runs · {c.pct}%
-              </p>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   )
 }

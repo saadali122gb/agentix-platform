@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UploadCloud, FileText, Search, Loader2, CheckCircle2, XCircle } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import {
@@ -10,19 +10,42 @@ import {
   Badge,
   Input,
 } from '@/components/ui'
-import { knowledgeDocs } from '@/data/mockData'
 import { api, isBackendConfigured } from '@/services/api'
+import { listDocuments } from '@/services/db'
 
 const statusTone = { indexed: 'emerald', processing: 'amber', failed: 'rose' }
 const ACCEPT = '.pdf,.docx,.txt,.md,.csv'
+
+function toDoc(row) {
+  return {
+    id: row.id,
+    name: row.source || 'Untitled',
+    type: row.metadata?.mimetype?.includes('pdf')
+      ? 'PDF'
+      : row.metadata?.mimetype?.includes('word')
+        ? 'DOCX'
+        : 'Document',
+    chunks: row.metadata?.chunk != null ? row.metadata.chunk + 1 : 1,
+    status: 'indexed',
+    updated: (row.created_at || '').slice(0, 10),
+  }
+}
 
 export default function KnowledgeBase() {
   const fileInputRef = useRef(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
   const [results, setResults] = useState([])
-  const [docs, setDocs] = useState(knowledgeDocs)
+  const [docs, setDocs] = useState([])
+  const [loadingDocs, setLoadingDocs] = useState(true)
   const [dragOver, setDragOver] = useState(false)
+
+  useEffect(() => {
+    listDocuments()
+      .then((rows) => setDocs(rows.map(toDoc)))
+      .catch(() => {})
+      .finally(() => setLoadingDocs(false))
+  }, [])
 
   const [query, setQuery] = useState('')
   const [querying, setQuerying] = useState(false)
@@ -173,24 +196,34 @@ export default function KnowledgeBase() {
               <CardTitle>Indexed documents ({docs.length})</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="divide-y divide-line">
-                {docs.map((doc) => (
-                  <div key={doc.id} className="flex items-center gap-3 px-5 py-3.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-canvas text-muted">
-                      <FileText className="h-4 w-4" />
+              {loadingDocs ? (
+                <div className="flex items-center justify-center py-10">
+                  <Loader2 className="h-5 w-5 animate-spin text-brand-500" />
+                </div>
+              ) : docs.length === 0 ? (
+                <p className="px-5 py-10 text-center text-sm text-muted">
+                  No documents yet. Upload a file to build your knowledge base.
+                </p>
+              ) : (
+                <div className="divide-y divide-line">
+                  {docs.map((doc) => (
+                    <div key={doc.id} className="flex items-center gap-3 px-5 py-3.5">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-canvas text-muted">
+                        <FileText className="h-4 w-4" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-content">
+                          {doc.name}
+                        </p>
+                        <p className="text-xs text-subtle">
+                          {doc.type} · {doc.chunks} chunks · updated {doc.updated}
+                        </p>
+                      </div>
+                      <Badge tone={statusTone[doc.status]}>{doc.status}</Badge>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-content">
-                        {doc.name}
-                      </p>
-                      <p className="text-xs text-subtle">
-                        {doc.type} · {doc.chunks} chunks · updated {doc.updated}
-                      </p>
-                    </div>
-                    <Badge tone={statusTone[doc.status]}>{doc.status}</Badge>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

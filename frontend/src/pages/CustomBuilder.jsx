@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import {
   Card,
@@ -13,6 +15,8 @@ import {
   Badge,
 } from '@/components/ui'
 import { AGENT_CATEGORIES } from '@/data/mockData'
+import { useAuth } from '@/auth/AuthProvider'
+import { createAgent } from '@/services/db'
 import { cn } from '@/lib/utils'
 
 const TOOLS = [
@@ -31,6 +35,8 @@ const DEFAULT_GUARDRAIL = `- You are an AI Assistant for Insurance & Trades.
 - Strictly verify user permissions before accessing customer-specific documents.`
 
 export default function CustomBuilder() {
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     name: '',
     category: 'defensive',
@@ -39,11 +45,12 @@ export default function CustomBuilder() {
     tools: ['Knowledge base search'],
     guardrail: DEFAULT_GUARDRAIL,
   })
-  const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
 
   const update = (key, value) => {
     setForm((f) => ({ ...f, [key]: value }))
-    setSaved(false)
+    setError('')
   }
 
   const toggleTool = (tool) =>
@@ -54,10 +61,29 @@ export default function CustomBuilder() {
         : [...f.tools, tool],
     }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // In production this calls api.createAgent(form) against the cloud backend.
-    setSaved(true)
+    setError('')
+    setSaving(true)
+    try {
+      await createAgent(user.id, {
+        name: form.name,
+        category: form.category,
+        model: form.model,
+        description: form.description,
+        instructions: form.guardrail,
+        tools: form.tools,
+        guardrails: [],
+        status: 'active',
+        runs_today: 0,
+        success_rate: 0,
+      })
+      navigate('/agents')
+    } catch (err) {
+      setError(err.message || 'Could not create agent.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -215,12 +241,13 @@ export default function CustomBuilder() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={saving || !form.name.trim()}>
+                {saving && <Loader2 className="h-4 w-4 animate-spin" />}
                 Create agent
               </Button>
-              {saved && (
-                <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-center text-sm text-emerald-600 dark:text-emerald-400">
-                  Agent configuration saved (demo). Wire up the backend to deploy.
+              {error && (
+                <p className="rounded-lg bg-rose-500/10 px-3 py-2 text-center text-sm text-rose-600 dark:text-rose-400">
+                  {error}
                 </p>
               )}
             </CardContent>

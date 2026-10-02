@@ -29,6 +29,13 @@ export const api = {
   queryKnowledgeBase: (query) =>
     request('/kb/query', { method: 'POST', body: JSON.stringify({ query }) }),
 
+  // Run an agent turn through the backend guardrail pipeline.
+  runAgent: ({ name, category, instructions, input }) =>
+    request('/agents/run', {
+      method: 'POST',
+      body: JSON.stringify({ name, category, instructions, input }),
+    }),
+
   // File upload uses multipart/form-data — do NOT set Content-Type manually
   // (the browser adds the multipart boundary).
   uploadDocuments: async (files) => {
