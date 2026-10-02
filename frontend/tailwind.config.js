@@ -5,18 +5,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Fixed brand scale (indigo).
+        // Fixed brand scale (emerald).
         brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
         },
         // Semantic tokens backed by CSS variables (see index.css).
         canvas: 'rgb(var(--canvas) / <alpha-value>)',
@@ -34,7 +34,7 @@ export default {
         card: '0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06)',
         'card-hover':
           '0 10px 24px -8px rgb(15 23 42 / 0.12), 0 2px 6px -2px rgb(15 23 42 / 0.08)',
-        focus: '0 0 0 3px rgb(99 102 241 / 0.25)',
+        focus: '0 0 0 3px rgb(16 185 129 / 0.25)',
       },
       borderRadius: {
         xl: '0.75rem',

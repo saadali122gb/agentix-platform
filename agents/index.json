@@ -1,0 +1,34 @@
+{
+  "agents": [
+    {
+      "name": "Lead Generation & Outbound",
+      "category": "offensive",
+      "file": "lead-generation-outbound.agent.json"
+    },
+    {
+      "name": "Intent Tracking & Renewals",
+      "category": "offensive",
+      "file": "intent-tracking-renewals.agent.json"
+    },
+    {
+      "name": "Workflow & Task Management",
+      "category": "defensive",
+      "file": "workflow-task-management.agent.json"
+    },
+    {
+      "name": "Automated Data Entry",
+      "category": "defensive",
+      "file": "automated-data-entry.agent.json"
+    },
+    {
+      "name": "Internal Virtual Assistant",
+      "category": "assistant",
+      "file": "internal-virtual-assistant.agent.json"
+    },
+    {
+      "name": "Customer Support Agent",
+      "category": "customer",
+      "file": "customer-support-agent.agent.json"
+    }
+  ]
+}

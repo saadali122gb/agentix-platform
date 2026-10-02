@@ -3,8 +3,18 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 
 const AuthContext = createContext(null)
 
+// Local dev user used when Supabase isn't configured, so the app is fully
+// usable (data persists in localStorage via the local store).
+const DEV_USER = {
+  id: 'dev-user',
+  email: 'dev@localhost',
+  user_metadata: { full_name: 'Dev User', role: 'Local dev mode' },
+}
+
 export function AuthProvider({ children }) {
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(
+    isSupabaseConfigured ? null : { user: DEV_USER },
+  )
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -27,6 +37,7 @@ export function AuthProvider({ children }) {
     user: session?.user ?? null,
     loading,
     configured: isSupabaseConfigured,
+    devMode: !isSupabaseConfigured,
 
     signIn: (email, password) =>
       supabase.auth.signInWithPassword({ email, password }),
@@ -38,7 +49,7 @@ export function AuthProvider({ children }) {
         options: { data: { full_name: fullName } },
       }),
 
-    signOut: () => supabase.auth.signOut(),
+    signOut: () => (supabase ? supabase.auth.signOut() : Promise.resolve()),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

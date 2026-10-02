@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import {
   LayoutDashboard,
   Boxes,
@@ -13,25 +13,25 @@ import { cn } from '@/lib/utils'
 const groups = [
   {
     label: 'Platform',
-    items: [{ to: '/', label: 'Overview', icon: LayoutDashboard, end: true }],
+    items: [{ to: '/app', label: 'Overview', icon: LayoutDashboard, end: true }],
   },
   {
     label: 'Automations',
     items: [
-      { to: '/agents', label: 'Agents Catalog', icon: Boxes },
-      { to: '/builder', label: 'Custom Builder', icon: Wand2 },
+      { to: '/app/agents', label: 'Agents Catalog', icon: Boxes },
+      { to: '/app/builder', label: 'Custom Builder', icon: Wand2 },
     ],
   },
   {
     label: 'Data',
     items: [
-      { to: '/knowledge-base', label: 'Knowledge Base', icon: BookOpen },
-      { to: '/integrations', label: 'Integrations', icon: Plug },
+      { to: '/app/knowledge-base', label: 'Knowledge Base', icon: BookOpen },
+      { to: '/app/integrations', label: 'Integrations', icon: Plug },
     ],
   },
   {
     label: 'Security',
-    items: [{ to: '/guardrails', label: 'Guardrails & RBAC', icon: ShieldCheck }],
+    items: [{ to: '/app/guardrails', label: 'Guardrails & RBAC', icon: ShieldCheck }],
   },
 ]
 
@@ -52,7 +52,7 @@ export default function Sidebar({ open, onClose }) {
         )}
       >
         <div className="flex h-16 items-center justify-between gap-2 border-b border-line px-5">
-          <div className="flex items-center gap-2.5">
+          <Link to="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-sm">
               <ShieldCheck className="h-5 w-5" />
             </div>
@@ -62,7 +62,7 @@ export default function Sidebar({ open, onClose }) {
               </p>
               <p className="text-[11px] text-muted">Insurance &amp; Trades</p>
             </div>
-          </div>
+          </Link>
           <button
             className="rounded-md p-1 text-subtle hover:bg-canvas hover:text-content lg:hidden"
             onClick={onClose}

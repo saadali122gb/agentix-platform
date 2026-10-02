@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader2, Plus, Sparkles, Boxes } from 'lucide-react'
+import { Loader2, Plus, Sparkles, Boxes, Download } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import AgentCard from '@/components/AgentCard'
 import AgentRunModal from '@/components/AgentRunModal'
 import { Button } from '@/components/ui'
 import { AGENT_CATEGORIES } from '@/data/mockData'
+import { downloadJSON } from '@/lib/download'
 import { useAuth } from '@/auth/AuthProvider'
 import {
   listAgents,
@@ -90,9 +91,24 @@ export default function AgentsCatalog() {
         title="Agents Catalog"
         subtitle="Your deployed agents — create, configure, pause or run them."
         actions={
-          <Button onClick={() => navigate('/builder')}>
-            <Plus className="h-4 w-4" /> New agent
-          </Button>
+          <>
+            {agents.length > 0 && (
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  downloadJSON(
+                    'agentix-agents.json',
+                    agents.map(({ user_id, ...a }) => a),
+                  )
+                }
+              >
+                <Download className="h-4 w-4" /> Export all
+              </Button>
+            )}
+            <Button onClick={() => navigate('/app/builder')}>
+              <Plus className="h-4 w-4" /> New agent
+            </Button>
+          </>
         }
       />
 
@@ -119,7 +135,7 @@ export default function AgentsCatalog() {
               {seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               Install starter agents
             </Button>
-            <Button variant="secondary" onClick={() => navigate('/builder')}>
+            <Button variant="secondary" onClick={() => navigate('/app/builder')}>
               <Plus className="h-4 w-4" /> Build custom
             </Button>
           </div>

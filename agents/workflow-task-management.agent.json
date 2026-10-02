@@ -1,0 +1,17 @@
+{
+  "name": "Workflow & Task Management",
+  "category": "defensive",
+  "description": "Automates reminders, follow-ups and calendar scheduling for brokers and PMs.",
+  "model": "gemini-flash-lite-latest",
+  "instructions": "Automate reminders, follow-ups and scheduling. Confirm before creating or modifying calendar events.",
+  "tools": [
+    "Schedule meeting",
+    "Slack notify"
+  ],
+  "guardrails": [
+    "Read-only calendar by default"
+  ],
+  "status": "active",
+  "runs_today": 311,
+  "success_rate": 0.96
+}

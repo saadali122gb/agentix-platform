@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/auth/AuthProvider'
 
 export default function ProtectedRoute({ children }) {
-  const { user, loading, configured } = useAuth()
+  const { user, loading } = useAuth()
   const location = useLocation()
 
   if (loading) {
@@ -14,8 +14,9 @@ export default function ProtectedRoute({ children }) {
     )
   }
 
-  // No session (or Supabase not configured) -> send to login.
-  if (!user || !configured) {
+  // No session -> send to login. In dev mode a dev user is always present,
+  // so the app stays usable without Supabase.
+  if (!user) {
     return <Navigate to="/login" replace state={{ from: location }} />
   }
 

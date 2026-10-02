@@ -1,0 +1,16 @@
+{
+  "name": "Intent Tracking & Renewals",
+  "category": "offensive",
+  "description": "Analyses CRM data to track renewal dates and surface cross-sell / upsell opportunities.",
+  "model": "claude-opus-4-8",
+  "instructions": "Analyse CRM data to find upcoming renewals and cross-sell/upsell signals. Surface opportunities; do not contact customers without approval.",
+  "tools": [
+    "CRM lookup"
+  ],
+  "guardrails": [
+    "Licensed human approval for advice"
+  ],
+  "status": "active",
+  "runs_today": 63,
+  "success_rate": 0.91
+}

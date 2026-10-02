@@ -109,7 +109,7 @@ export default function Dashboard() {
         title="Overview"
         subtitle="Live view of deployed agents, performance and compliance."
         actions={
-          <Button onClick={() => navigate('/builder')}>
+          <Button onClick={() => navigate('/app/builder')}>
             <Plus className="h-4 w-4" /> New agent
           </Button>
         }
@@ -121,7 +121,7 @@ export default function Dashboard() {
           <p className="mt-1 text-sm text-muted">
             Head to the catalog to install starter agents or build your own.
           </p>
-          <Button className="mt-4" onClick={() => navigate('/agents')}>
+          <Button className="mt-4" onClick={() => navigate('/app/agents')}>
             Go to Agents Catalog
           </Button>
         </Card>
@@ -145,8 +145,8 @@ export default function Dashboard() {
                 <AreaChart data={activityTrend} margin={{ left: -20, right: 8, top: 8 }}>
                   <defs>
                     <linearGradient id="runs" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35} />
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.35} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={grid} vertical={false} />
@@ -162,7 +162,7 @@ export default function Dashboard() {
                       fontSize: 13,
                     }}
                   />
-                  <Area type="monotone" dataKey="runs" stroke="#6366f1" strokeWidth={2.5} fill="url(#runs)" />
+                  <Area type="monotone" dataKey="runs" stroke="#10b981" strokeWidth={2.5} fill="url(#runs)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

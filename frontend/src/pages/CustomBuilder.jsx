@@ -78,7 +78,7 @@ export default function CustomBuilder() {
         runs_today: 0,
         success_rate: 0,
       })
-      navigate('/agents')
+      navigate('/app/agents')
     } catch (err) {
       setError(err.message || 'Could not create agent.')
     } finally {

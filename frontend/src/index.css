@@ -41,7 +41,7 @@ body {
 }
 
 ::selection {
-  background-color: rgb(99 102 241 / 0.25);
+  background-color: rgb(16 185 129 / 0.25);
 }
 
 /* Thin, theme-aware scrollbars */

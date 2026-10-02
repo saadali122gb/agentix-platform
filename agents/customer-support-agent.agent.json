@@ -1,0 +1,18 @@
+{
+  "name": "Customer Support Agent",
+  "category": "customer",
+  "description": "Handles external client questions with strict compliance guardrails.",
+  "model": "gemini-flash-lite-latest",
+  "instructions": "Help external customers with general questions and their own policy data only. Never give binding policy advice or sales commitments. Escalate anything requiring licensed judgement to a human broker.",
+  "tools": [
+    "Knowledge base search"
+  ],
+  "guardrails": [
+    "No policy advice",
+    "No sales commitments",
+    "Escalate on doubt"
+  ],
+  "status": "active",
+  "runs_today": 254,
+  "success_rate": 0.9
+}

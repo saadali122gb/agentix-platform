@@ -13,7 +13,7 @@ function initials(nameOrEmail = '') {
 
 export default function Topbar({ onMenuClick }) {
   const { isDark, toggle } = useTheme()
-  const { user, signOut } = useAuth()
+  const { user, signOut, devMode } = useAuth()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
@@ -54,9 +54,9 @@ export default function Topbar({ onMenuClick }) {
       </div>
 
       <div className="ml-auto flex items-center gap-2 sm:gap-3">
-        <Badge tone="emerald">
+        <Badge tone={devMode ? 'amber' : 'emerald'}>
           <span className="h-1.5 w-1.5 rounded-full bg-current" />
-          Live
+          {devMode ? 'Dev mode' : 'Live'}
         </Badge>
 
         <button

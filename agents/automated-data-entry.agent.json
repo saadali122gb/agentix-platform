@@ -1,0 +1,16 @@
+{
+  "name": "Automated Data Entry",
+  "category": "defensive",
+  "description": "Extracts data from customer interactions and updates CRM records.",
+  "model": "gemini-flash-lite-latest",
+  "instructions": "Extract structured data from interactions and update CRM records. Flag low-confidence extractions for human review.",
+  "tools": [
+    "CRM update"
+  ],
+  "guardrails": [
+    "Human review on low confidence"
+  ],
+  "status": "active",
+  "runs_today": 198,
+  "success_rate": 0.93
+}

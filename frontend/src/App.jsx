@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import Layout from '@/components/Layout'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
 import AgentsCatalog from '@/pages/AgentsCatalog'
@@ -15,7 +16,7 @@ function NotFound() {
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <p className="text-6xl font-bold text-line">404</p>
       <p className="mt-2 text-sm text-muted">This page doesn’t exist.</p>
-      <Link to="/">
+      <Link to="/app">
         <Button className="mt-4">Back to overview</Button>
       </Link>
     </div>
@@ -25,9 +26,13 @@ function NotFound() {
 export default function App() {
   return (
     <Routes>
+      {/* Public */}
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
+      {/* App (protected) */}
       <Route
+        path="/app"
         element={
           <ProtectedRoute>
             <Layout />

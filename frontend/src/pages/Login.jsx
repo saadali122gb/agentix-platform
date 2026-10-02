@@ -8,7 +8,8 @@ export default function Login() {
   const { signIn, signUp, configured, user } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = location.state?.from?.pathname || '/'
+  const fromPath = location.state?.from?.pathname
+  const from = !fromPath || fromPath === '/login' ? '/app' : fromPath
 
   const [mode, setMode] = useState('signin') // 'signin' | 'signup'
   const [form, setForm] = useState({ fullName: '', email: '', password: '' })

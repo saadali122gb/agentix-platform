@@ -1,6 +1,12 @@
 import { Card, Badge, Button } from '@/components/ui'
 import { AGENT_CATEGORIES } from '@/data/mockData'
-import { Activity, ShieldCheck, Play, Pause, Trash2, MessageSquare } from 'lucide-react'
+import { Activity, ShieldCheck, Play, Pause, Trash2, MessageSquare, Download } from 'lucide-react'
+import { downloadJSON, slugify } from '@/lib/download'
+
+function exportAgent(agent) {
+  const { id, user_id, created_at, runs_today, success_rate, ...config } = agent
+  downloadJSON(`${slugify(agent.name)}.agent.json`, config)
+}
 
 export default function AgentCard({ agent, onToggle, onDelete, onRun }) {
   const category = AGENT_CATEGORIES[agent.category] || AGENT_CATEGORIES.defensive
@@ -60,6 +66,15 @@ export default function AgentCard({ agent, onToggle, onDelete, onRun }) {
           aria-label={active ? 'Pause agent' : 'Resume agent'}
         >
           {active ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={() => exportAgent(agent)}
+          title="Download agent config"
+          aria-label="Download agent"
+          className="text-muted hover:text-brand-600"
+        >
+          <Download className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"

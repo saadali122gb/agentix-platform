@@ -1,0 +1,18 @@
+{
+  "name": "Lead Generation & Outbound",
+  "category": "offensive",
+  "description": "Automatic prospect outreach and initial qualification across email and LinkedIn.",
+  "model": "claude-opus-4-8",
+  "instructions": "Draft personalised outbound messages and qualify inbound prospects. Never promise pricing or coverage; hand qualified leads to a human.",
+  "tools": [
+    "CRM lookup",
+    "Send email"
+  ],
+  "guardrails": [
+    "No binding quotes",
+    "Opt-out honoured"
+  ],
+  "status": "active",
+  "runs_today": 142,
+  "success_rate": 0.87
+}

@@ -19,12 +19,9 @@
       // Apply the saved/system theme before paint to avoid a flash.
       (function () {
         try {
-          var t = localStorage.getItem('theme')
-          if (!t)
-            t = window.matchMedia('(prefers-color-scheme: dark)').matches
-              ? 'dark'
-              : 'light'
-          if (t === 'dark') document.documentElement.classList.add('dark')
+          // Light by default; dark only if the user previously chose it.
+          if (localStorage.getItem('theme') === 'dark')
+            document.documentElement.classList.add('dark')
         } catch (e) {}
       })()
     </script>
