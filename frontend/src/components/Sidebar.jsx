@@ -62,7 +62,7 @@ export default function Sidebar({ open, onClose }) {
       >
         <div className="flex h-16 items-center justify-between gap-2 border-b border-line px-5">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white shadow-sm">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div className="leading-tight">

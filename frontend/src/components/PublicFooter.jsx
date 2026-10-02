@@ -1,67 +1,56 @@
 import { Link } from 'react-router-dom'
-import { ShieldCheck } from 'lucide-react'
-import { GITHUB_URL, MARKETING_NAV } from '@/lib/site'
+import { ShieldCheck, Github, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui'
+import { GITHUB_URL, COMPANY } from '@/lib/site'
 
 export default function PublicFooter() {
   return (
-    <footer className="border-t border-line bg-surface/50">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
-          <div className="max-w-xs">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <p className="text-sm font-bold tracking-tight">Agentix</p>
-            </div>
-            <p className="mt-3 text-sm text-muted">
-              AI agents for insurance brokerages and trades — build, deploy and
-              monitor on one platform.
+    <footer className="border-t border-line bg-surface">
+      {/* CTA band */}
+      <div className="border-b border-line">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-10 text-center sm:flex-row sm:px-6 sm:text-left">
+          <div>
+            <h3 className="text-lg font-bold tracking-tight text-content">
+              Ready to deploy your AI agents?
+            </h3>
+            <p className="mt-1 text-sm text-muted">
+              Launch the platform and run your first guardrailed agent in minutes.
             </p>
           </div>
+          <div className="flex gap-2">
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              <Button variant="secondary">
+                <Github className="h-4 w-4" /> GitHub
+              </Button>
+            </a>
+            <Link to="/app">
+              <Button>
+                Launch app <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
 
-          <div className="flex gap-12">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-subtle">
-                Product
-              </p>
-              <ul className="mt-3 space-y-2 text-sm">
-                {MARKETING_NAV.map((l) => (
-                  <li key={l.to}>
-                    <Link to={l.to} className="text-muted hover:text-content">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-subtle">
-                Resources
-              </p>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <Link to="/app" className="text-muted hover:text-content">
-                    Launch app
-                  </Link>
-                </li>
-                <li>
-                  <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="text-muted hover:text-content">
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <Link to="/login" className="text-muted hover:text-content">
-                    Sign in
-                  </Link>
-                </li>
-              </ul>
-            </div>
+      {/* Bottom bar */}
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div className="leading-tight">
+            <p className="text-sm font-bold tracking-tight text-content">Agentix</p>
+            <p className="text-[11px] text-muted">AI Agent Platform</p>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-line pt-6 text-sm text-muted">
-          © {new Date().getFullYear()} Agentix · AI Agent Platform
+        <div className="text-center text-sm text-muted sm:text-right">
+          <p>
+            Built by <span className="font-semibold text-content">{COMPANY}</span>
+          </p>
+          <p className="mt-0.5 text-xs text-subtle">
+            © {new Date().getFullYear()} {COMPANY}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

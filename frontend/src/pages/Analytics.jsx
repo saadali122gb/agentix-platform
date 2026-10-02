@@ -21,7 +21,7 @@ import { activityTrend, AGENT_CATEGORIES } from '@/data/mockData'
 import { listAgents } from '@/services/db'
 import { useTheme } from '@/theme/ThemeProvider'
 
-const CAT_COLORS = { offensive: '#10b981', defensive: '#0ea5e9', assistant: '#8b5cf6', customer: '#f59e0b' }
+const CAT_COLORS = { offensive: '#52525b', defensive: '#0ea5e9', assistant: '#8b5cf6', customer: '#f59e0b' }
 
 export default function Analytics() {
   const { isDark } = useTheme()
@@ -86,7 +86,7 @@ export default function Analytics() {
                     <XAxis type="number" tick={{ fontSize: 12, fill: tick }} axisLine={false} tickLine={false} />
                     <YAxis type="category" dataKey="name" width={110} tick={{ fontSize: 12, fill: tick }} axisLine={false} tickLine={false} />
                     <Tooltip cursor={{ fill: 'rgba(16,185,129,0.08)' }} contentStyle={tooltipStyle} />
-                    <Bar dataKey="runs" fill="#10b981" radius={[0, 6, 6, 0]} barSize={18} />
+                    <Bar dataKey="runs" fill="#52525b" radius={[0, 6, 6, 0]} barSize={18} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
@@ -133,15 +133,15 @@ export default function Analytics() {
               <AreaChart data={activityTrend} margin={{ left: -20, right: 8, top: 8 }}>
                 <defs>
                   <linearGradient id="a" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.35} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#52525b" stopOpacity={0.35} />
+                    <stop offset="95%" stopColor="#52525b" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={grid} vertical={false} />
                 <XAxis dataKey="day" tick={{ fontSize: 12, fill: tick }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 12, fill: tick }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Area type="monotone" dataKey="runs" stroke="#10b981" strokeWidth={2.5} fill="url(#a)" />
+                <Area type="monotone" dataKey="runs" stroke="#52525b" strokeWidth={2.5} fill="url(#a)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

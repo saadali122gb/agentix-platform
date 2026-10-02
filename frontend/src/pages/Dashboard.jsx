@@ -145,8 +145,8 @@ export default function Dashboard() {
                 <AreaChart data={activityTrend} margin={{ left: -20, right: 8, top: 8 }}>
                   <defs>
                     <linearGradient id="runs" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.35} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#52525b" stopOpacity={0.35} />
+                      <stop offset="95%" stopColor="#52525b" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke={grid} vertical={false} />
@@ -162,7 +162,7 @@ export default function Dashboard() {
                       fontSize: 13,
                     }}
                   />
-                  <Area type="monotone" dataKey="runs" stroke="#10b981" strokeWidth={2.5} fill="url(#runs)" />
+                  <Area type="monotone" dataKey="runs" stroke="#52525b" strokeWidth={2.5} fill="url(#runs)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

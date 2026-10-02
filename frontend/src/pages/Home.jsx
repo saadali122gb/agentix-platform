@@ -41,7 +41,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(45% 40% at 18% -5%, rgba(16,185,129,0.20), transparent 60%), radial-gradient(45% 45% at 85% 5%, rgba(13,148,136,0.18), transparent 60%), radial-gradient(60% 50% at 50% 0%, rgba(45,212,191,0.10), transparent 70%)',
+              'radial-gradient(45% 40% at 18% -5%, rgba(39,39,42,0.10), transparent 60%), radial-gradient(45% 45% at 85% 5%, rgba(39,39,42,0.08), transparent 60%), radial-gradient(60% 50% at 50% 0%, rgba(24,24,27,0.06), transparent 70%)',
           }}
         />
         <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
@@ -51,7 +51,7 @@ export default function Home() {
           </Badge>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
             Deploy, manage &amp; monitor{' '}
-            <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-zinc-700 to-zinc-900 bg-clip-text text-transparent">
               AI agents
             </span>{' '}
             at scale
@@ -99,13 +99,6 @@ export default function Home() {
               <p className="mt-1.5 text-sm text-muted">{desc}</p>
             </div>
           ))}
-        </div>
-        <div className="mt-8 text-center">
-          <Link to="/features">
-            <Button variant="secondary">
-              See all features <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
         </div>
       </section>
 

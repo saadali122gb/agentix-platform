@@ -1,12 +1,8 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Layout from '@/components/Layout'
 import PublicLayout from '@/components/PublicLayout'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import Home from '@/pages/Home'
-import Features from '@/pages/Features'
-import Pricing from '@/pages/Pricing'
-import About from '@/pages/About'
-import Contact from '@/pages/Contact'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
 import AgentsCatalog from '@/pages/AgentsCatalog'
@@ -34,13 +30,9 @@ function NotFound() {
 export default function App() {
   return (
     <Routes>
-      {/* Public marketing site */}
+      {/* Public site */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
@@ -65,6 +57,9 @@ export default function App() {
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* Unknown top-level routes -> home */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

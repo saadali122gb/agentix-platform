@@ -70,7 +70,7 @@ export default function Settings() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-base font-semibold uppercase text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 text-base font-semibold uppercase text-white">
                   {name.slice(0, 2)}
                 </div>
                 <div>
