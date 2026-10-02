@@ -1,26 +1,24 @@
 import { similaritySearch } from './vectorStore.js'
+import { embed } from '../llm/embeddings.js'
 import { complete } from '../llm/client.js'
 import { buildSystemPrompt } from '../guardrails/systemPrompt.js'
 
 /**
- * Minimal RAG query pipeline:
+ * RAG query pipeline:
  *   embed query -> retrieve chunks -> answer grounded in chunks.
- *
- * Embedding is stubbed (returns a zero vector) until an embeddings
- * provider is wired up; retrieval falls back to mock chunks without Supabase.
+ * Falls back to mock embeddings/chunks and a mock LLM answer when the
+ * corresponding services are not configured.
  */
-async function embed(/* text */) {
-  // TODO: call an embeddings endpoint (e.g. Voyage / OpenAI) and return vector.
-  return new Array(1536).fill(0)
-}
+export async function answerFromKnowledgeBase(query, { matchCount = 5 } = {}) {
+  const [embedding] = await embed(query, { inputType: 'query' })
+  const chunks = await similaritySearch(embedding, matchCount)
 
-export async function answerFromKnowledgeBase(query) {
-  const embedding = await embed(query)
-  const chunks = await similaritySearch(embedding)
+  const context = chunks
+    .map((c, i) => `[${i + 1}] ${c.content}`)
+    .join('\n')
 
-  const context = chunks.map((c, i) => `[${i + 1}] ${c.content}`).join('\n')
   const system = buildSystemPrompt(
-    'Answer ONLY from the provided context. If the answer is not in the context, say you do not have that information.',
+    'Answer ONLY from the provided context. Cite sources as [n]. If the answer is not in the context, say you do not have that information.',
   )
 
   const res = await complete({

@@ -26,6 +26,7 @@ Point the frontend at it: in `frontend/.env` set
 | POST | `/agents` | Register a custom agent (stub) |
 | POST | `/agents/:id/run` | Run an agent turn through the guardrail pipeline |
 | GET | `/metrics` | Dashboard KPIs |
+| POST | `/kb/ingest` | Chunk + embed + store a document in the knowledge base |
 | POST | `/kb/query` | RAG query against the knowledge base |
 
 Auth is a stub: send `x-user-role` (`admin` \| `sales` \| `pm` \| `customer`)
@@ -34,18 +35,57 @@ and `x-user-id` headers. Defaults to `admin`.
 ## Structure
 
 ```
-backend/src/
-├── index.js            # server bootstrap
-├── app.js              # express app, middleware, route mount
-├── config/env.js       # env + feature flags
-├── middleware/         # auth, error handler
-├── routes/             # agents, metrics, kb
-├── agents/             # offensive, defensive, assistant, customer + runner
-├── guardrails/         # system prompt, RBAC, compliance, output checker
-├── integrations/       # Racing Snail CRM, Slack, email
-├── rag/                # vector store (Supabase pgvector) + query pipeline
-└── llm/                # Anthropic client
+backend/
+├── db/schema.sql           # Supabase pgvector schema + match_documents RPC
+└── src/
+    ├── index.js            # server bootstrap
+    ├── app.js              # express app, middleware, route mount
+    ├── config/env.js       # env + feature flags
+    ├── lib/http.js         # fetch wrapper (timeout + JSON + errors)
+    ├── middleware/         # auth, error handler
+    ├── routes/             # agents, metrics, kb
+    ├── agents/             # offensive, defensive, assistant, customer + runner
+    ├── guardrails/         # system prompt, RBAC, compliance, output checker
+    ├── integrations/       # Racing Snail CRM, Slack, email (Graph + Gmail)
+    ├── rag/                # chunk, embed, ingest, vector store, query pipeline
+    └── llm/                # Anthropic client + embeddings (Voyage/OpenAI)
 ```
+
+## Integrations (real, with mock fallback)
+
+Everything runs in **mock mode** until the matching credentials are set; then
+the same code paths make real calls. `GET /health` reports which are live.
+
+### RAG / knowledge base (Supabase + pgvector)
+
+1. Create a Supabase project and run **`backend/db/schema.sql`** in the SQL
+   editor (creates the `documents` table, ANN index and `match_documents` RPC).
+2. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+3. Set an embeddings provider: `EMBEDDINGS_PROVIDER=voyage` (default) or
+   `openai`, plus `EMBEDDINGS_API_KEY` and `EMBEDDINGS_MODEL`.
+   **`EMBEDDING_DIM` must match the `vector(N)` dimension in `schema.sql`**
+   (voyage-3 = 1024, OpenAI text-embedding-3-small = 1536).
+4. `POST /kb/ingest { text, source?, metadata? }` chunks → embeds → stores.
+   `POST /kb/query { query }` embeds the query, retrieves top matches and answers
+   grounded in them (citing `[n]`).
+
+### Racing Snail CRM
+
+Set `RACING_SNAIL_API_URL` + `RACING_SNAIL_API_KEY`. The client maps the RBAC
+scope to query params on every read. **The REST paths are assumptions** (no
+public spec was available) — adjust `src/integrations/racingSnail.js` to the
+real API.
+
+### Email (Outlook / Gmail)
+
+Senders use Microsoft Graph and the Gmail API. They require a **per-user OAuth
+access token** passed at call time (tokens are per-user and short-lived, so they
+are not read from env). Wire the OAuth authorization-code flow into the auth
+layer and pass the token to `sendEmail({ ..., provider, accessToken })`.
+
+### Slack
+
+Set `SLACK_WEBHOOK_URL` to post alerts/follow-ups via an incoming webhook.
 
 ## Guardrail pipeline
 
@@ -59,8 +99,9 @@ Every `POST /agents/:id/run` call passes through:
 
 ## Next steps
 
-- Real embeddings provider + Supabase `match_documents` RPC and `documents` table
-- Racing Snail CRM live endpoints + custom CRM schema
-- Outlook (Microsoft Graph) and Gmail senders with OAuth
-- Persist custom agents and audit logs
+- Confirm Racing Snail's real API paths/fields and adjust the client
+- OAuth authorization-code flow + token storage/refresh for email
+- Document upload parsing (PDF/DOCX → text) feeding `/kb/ingest`
+- Persist custom agents and add audit logging
 - Replace the auth stub with JWT / session verification
+- Enable Supabase RLS policies for tenant/role isolation

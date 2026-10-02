@@ -98,8 +98,10 @@ repo subpath without hard-coding the repo name.
 ## Roadmap
 
 - [x] Frontend dashboard + GitHub Pages deployment
-- [ ] Cloud backend (LLM calls, RAG pipeline, Supabase pgvector)
-- [ ] Racing Snail CRM integration + custom CRM option
-- [ ] Communication webhooks (Outlook, Gmail, Slack, Teams)
-- [ ] RBAC + compliance guardrail middleware & output checker
-- [ ] Auth and multi-tenant workspaces
+- [x] Cloud backend (Express) with LLM, RAG pipeline + Supabase pgvector schema
+- [x] RBAC + compliance guardrail middleware & LLM output checker
+- [x] Racing Snail CRM client, Slack, and Outlook/Gmail email senders
+- [ ] Confirm real CRM API spec; OAuth flow + token refresh for email
+- [ ] Document upload parsing (PDF/DOCX → `/kb/ingest`)
+- [ ] Auth (JWT/session) + multi-tenant workspaces & audit logging
+- [ ] Deploy backend to Render/Vercel and wire `VITE_API_BASE_URL`
