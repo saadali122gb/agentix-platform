@@ -11,6 +11,7 @@ import {
   MessagesSquare,
 } from 'lucide-react'
 import { Button, Badge } from '@/components/ui'
+import { LogoBadge } from '@/components/Logo'
 import { STARTER_AGENTS } from '@/data/starterAgents'
 import { AGENT_CATEGORIES } from '@/data/mockData'
 import { downloadJSON, slugify } from '@/lib/download'
@@ -32,29 +33,106 @@ function downloadAll() {
   downloadJSON('agentix-starter-agents.json', STARTER_AGENTS)
 }
 
+const PREVIEW_AGENTS = [
+  ['Lead Generation', 92],
+  ['Workflow & Tasks', 78],
+  ['Data Entry', 64],
+  ['Customer Support', 51],
+]
+
+function HeroPreview() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_70px_-24px_rgba(0,0,0,0.30)] ring-1 ring-black/5">
+      {/* window bar */}
+      <div className="flex items-center gap-2 border-b border-line bg-canvas px-4 py-3">
+        <span className="h-3 w-3 rounded-full bg-zinc-300" />
+        <span className="h-3 w-3 rounded-full bg-zinc-300" />
+        <span className="h-3 w-3 rounded-full bg-zinc-300" />
+        <div className="mx-auto flex items-center gap-2 rounded-md bg-surface px-3 py-1 text-xs text-subtle ring-1 ring-line">
+          app.agentix · Overview
+        </div>
+      </div>
+      {/* body */}
+      <div className="grid grid-cols-1 text-left sm:grid-cols-[180px_1fr]">
+        {/* mini sidebar */}
+        <div className="hidden border-r border-line p-4 sm:block">
+          <div className="flex items-center gap-2">
+            <LogoBadge className="h-7 w-7" />
+            <div className="h-2 w-14 rounded bg-zinc-200" />
+          </div>
+          <div className="mt-5 space-y-2.5">
+            <div className="h-2.5 w-24 rounded bg-zinc-800" />
+            <div className="h-2.5 w-20 rounded bg-zinc-200" />
+            <div className="h-2.5 w-16 rounded bg-zinc-200" />
+            <div className="h-2.5 w-24 rounded bg-zinc-200" />
+            <div className="h-2.5 w-20 rounded bg-zinc-200" />
+          </div>
+        </div>
+        {/* content */}
+        <div className="p-5">
+          <div className="grid grid-cols-3 gap-3">
+            {[['Active agents', '6 / 6'], ['Runs today', '1,055'], ['Success', '92%']].map(([l, v]) => (
+              <div key={l} className="rounded-xl border border-line bg-canvas/50 p-3">
+                <p className="text-[11px] text-subtle">{l}</p>
+                <p className="mt-1 text-lg font-bold tabular-nums tracking-tight text-content">{v}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-xl border border-line p-4">
+            <p className="mb-3 text-xs font-medium text-muted">Runs by agent</p>
+            <div className="space-y-3">
+              {PREVIEW_AGENTS.map(([name, v]) => (
+                <div key={name} className="flex items-center gap-3">
+                  <span className="w-28 shrink-0 text-xs text-muted">{name}</span>
+                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                    <span className="block h-full rounded-full bg-gradient-to-r from-zinc-700 to-zinc-900" style={{ width: `${v}%` }} />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden border-b border-line">
+        {/* dotted grid */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(39,39,42,0.11) 1px, transparent 1px)',
+            backgroundSize: '22px 22px',
+            maskImage: 'radial-gradient(ellipse 75% 60% at 50% 0%, #000, transparent 75%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 0%, #000, transparent 75%)',
+          }}
+        />
+        {/* soft glow */}
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(45% 40% at 18% -5%, rgba(39,39,42,0.10), transparent 60%), radial-gradient(45% 45% at 85% 5%, rgba(39,39,42,0.08), transparent 60%), radial-gradient(60% 50% at 50% 0%, rgba(24,24,27,0.06), transparent 70%)',
+              'radial-gradient(40% 35% at 20% 0%, rgba(39,39,42,0.08), transparent 60%), radial-gradient(40% 35% at 80% 5%, rgba(24,24,27,0.07), transparent 60%)',
           }}
         />
-        <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
+
+        <div className="mx-auto max-w-4xl px-4 pt-20 text-center sm:px-6 sm:pt-28">
           <Badge tone="brand" className="mb-5">
-            <span className="h-1.5 w-1.5 rounded-full bg-current" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
             AI agents for insurance &amp; trades
           </Badge>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
             Deploy, manage &amp; monitor{' '}
-            <span className="bg-gradient-to-r from-zinc-700 to-zinc-900 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-zinc-600 via-zinc-800 to-black bg-clip-text text-transparent">
               AI agents
-            </span>{' '}
-            at scale
+            </span>
+            <br className="hidden sm:block" /> at scale
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
             One platform to build offensive and defensive automations, a RAG
@@ -75,6 +153,12 @@ export default function Home() {
             No credit card · runs in your browser · open source
           </p>
         </div>
+
+        {/* product preview */}
+        <div className="mx-auto mt-14 max-w-5xl px-4 sm:px-6">
+          <HeroPreview />
+        </div>
+        <div className="h-16 sm:h-24" />
       </section>
 
       {/* Features */}

@@ -10,6 +10,7 @@ import {
   Settings,
   X,
 } from 'lucide-react'
+import { Logo } from '@/components/Logo'
 import { cn } from '@/lib/utils'
 
 const groups = [
@@ -61,16 +62,8 @@ export default function Sidebar({ open, onClose }) {
         )}
       >
         <div className="flex h-16 items-center justify-between gap-2 border-b border-line px-5">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white shadow-sm">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <div className="leading-tight">
-              <p className="text-sm font-bold tracking-tight text-content">
-                Agentix
-              </p>
-              <p className="text-[11px] text-muted">Insurance &amp; Trades</p>
-            </div>
+          <Link to="/">
+            <Logo />
           </Link>
           <button
             className="rounded-md p-1 text-subtle hover:bg-canvas hover:text-content lg:hidden"

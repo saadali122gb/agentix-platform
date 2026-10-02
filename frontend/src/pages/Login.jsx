@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { ShieldCheck, Loader2, AlertTriangle } from 'lucide-react'
+import { Loader2, AlertTriangle } from 'lucide-react'
 import { Button, Input, Label } from '@/components/ui'
+import { LogoBadge } from '@/components/Logo'
 import { useAuth } from '@/auth/AuthProvider'
 
 export default function Login() {
@@ -56,9 +57,7 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-canvas px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white shadow-sm">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
+          <LogoBadge className="h-12 w-12 rounded-2xl" />
           <h1 className="mt-4 text-xl font-bold tracking-tight text-content">
             {mode === 'signin' ? 'Sign in to Agentix' : 'Create your account'}
           </h1>

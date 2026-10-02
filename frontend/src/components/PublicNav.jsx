@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { ShieldCheck, Github, ArrowRight, Menu, X } from 'lucide-react'
+import { Github, ArrowRight, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui'
+import { Logo } from '@/components/Logo'
 import { GITHUB_URL, MARKETING_NAV } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -10,14 +11,8 @@ export default function PublicNav() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-surface/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <div className="leading-tight">
-            <p className="text-sm font-bold tracking-tight">Agentix</p>
-            <p className="text-[11px] text-muted">Insurance &amp; Trades</p>
-          </div>
+        <Link to="/">
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

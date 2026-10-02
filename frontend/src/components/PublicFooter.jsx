@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { ShieldCheck, Github, ArrowRight } from 'lucide-react'
+import { Github, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui'
+import { Logo } from '@/components/Logo'
 import { GITHUB_URL, COMPANY } from '@/lib/site'
 
 export default function PublicFooter() {
@@ -34,15 +35,7 @@ export default function PublicFooter() {
 
       {/* Bottom bar */}
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-700 to-zinc-900 text-white">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <div className="leading-tight">
-            <p className="text-sm font-bold tracking-tight text-content">Agentix</p>
-            <p className="text-[11px] text-muted">AI Agent Platform</p>
-          </div>
-        </div>
+        <Logo subtitle="AI Agent Platform" />
 
         <div className="text-center text-sm text-muted sm:text-right">
           <p>
