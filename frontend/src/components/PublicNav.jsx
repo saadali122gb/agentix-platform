@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Github, ArrowRight, Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { Logo } from '@/components/Logo'
-import { GITHUB_URL, MARKETING_NAV } from '@/lib/site'
+import { MARKETING_NAV } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 export default function PublicNav() {
@@ -35,11 +35,6 @@ export default function PublicNav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hidden sm:block">
-            <Button variant="ghost">
-              <Github className="h-4 w-4" /> GitHub
-            </Button>
-          </a>
           <Link to="/login" className="hidden sm:block">
             <Button variant="secondary">Sign in</Button>
           </Link>
