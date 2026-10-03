@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { randomUUID } from 'node:crypto'
@@ -18,7 +19,10 @@ export function getSupabase() {
 
 /* --- Local file-backed store (used when Supabase isn't configured) ----- */
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const DATA_FILE = path.join(__dirname, '../../.data/kb.json')
+// On serverless (Vercel), the project dir is read-only — use a temp path.
+const DATA_FILE = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'agentix-kb.json')
+  : path.join(__dirname, '../../.data/kb.json')
 
 function loadLocal() {
   try {
