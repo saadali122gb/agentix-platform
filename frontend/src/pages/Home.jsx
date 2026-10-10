@@ -108,23 +108,23 @@ export default function Home() {
           className="animate-grid-pan pointer-events-none absolute inset-0 -z-10"
           style={{
             backgroundImage:
-              'radial-gradient(circle, rgba(39,39,42,0.18) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-            maskImage: 'radial-gradient(ellipse 100% 90% at 50% 10%, #000 60%, transparent 92%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 100% 90% at 50% 10%, #000 60%, transparent 92%)',
+              'radial-gradient(circle, rgba(39,39,42,0.28) 1.3px, transparent 1.3px)',
+            backgroundSize: '26px 26px',
+            maskImage: 'linear-gradient(to bottom, #000 70%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, #000 70%, transparent 100%)',
           }}
         />
         {/* spinning aurora shades */}
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div
-            className="animate-spin-slow absolute left-1/2 top-[-280px] h-[760px] w-[760px] -translate-x-1/2 rounded-full opacity-[0.30] blur-3xl"
+            className="animate-spin-slow absolute left-1/2 top-[-280px] h-[760px] w-[760px] -translate-x-1/2 rounded-full opacity-[0.45] blur-3xl"
             style={{
               background:
-                'conic-gradient(from 0deg, rgba(39,39,42,0), rgba(39,39,42,0.42), rgba(24,24,27,0), rgba(63,63,70,0.38), rgba(39,39,42,0))',
+                'conic-gradient(from 0deg, rgba(39,39,42,0), rgba(39,39,42,0.55), rgba(24,24,27,0), rgba(63,63,70,0.5), rgba(39,39,42,0))',
             }}
           />
           <div
-            className="animate-spin-slow absolute bottom-[-260px] left-1/4 h-[560px] w-[560px] rounded-full opacity-[0.22] blur-3xl"
+            className="animate-spin-slow absolute bottom-[-260px] left-1/4 h-[560px] w-[560px] rounded-full opacity-[0.34] blur-3xl"
             style={{
               animationDirection: 'reverse',
               animationDuration: '40s',
