@@ -103,17 +103,27 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-line">
-        {/* dotted grid */}
+        {/* drifting dotted grid */}
         <div
-          className="pointer-events-none absolute inset-0 -z-10"
+          className="animate-grid-pan pointer-events-none absolute inset-0 -z-10"
           style={{
             backgroundImage:
-              'radial-gradient(circle, rgba(39,39,42,0.11) 1px, transparent 1px)',
+              'radial-gradient(circle, rgba(39,39,42,0.12) 1px, transparent 1px)',
             backgroundSize: '22px 22px',
-            maskImage: 'radial-gradient(ellipse 75% 60% at 50% 0%, #000, transparent 75%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 0%, #000, transparent 75%)',
+            maskImage: 'radial-gradient(ellipse 80% 65% at 50% 0%, #000, transparent 78%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 65% at 50% 0%, #000, transparent 78%)',
           }}
         />
+        {/* slow-spinning aurora */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div
+            className="animate-spin-slow absolute left-1/2 top-[-260px] h-[640px] w-[640px] -translate-x-1/2 rounded-full opacity-[0.18] blur-3xl"
+            style={{
+              background:
+                'conic-gradient(from 0deg, rgba(39,39,42,0), rgba(39,39,42,0.30), rgba(24,24,27,0), rgba(63,63,70,0.28), rgba(39,39,42,0))',
+            }}
+          />
+        </div>
         {/* floating glow orbs */}
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="animate-float-slow animate-pulse-glow absolute -left-10 top-[-60px] h-72 w-72 rounded-full bg-zinc-400/20 blur-3xl" />

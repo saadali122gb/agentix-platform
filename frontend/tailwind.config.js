@@ -72,6 +72,10 @@ export default {
         shimmer: {
           '100%': { transform: 'translateX(100%)' },
         },
+        'grid-pan': {
+          '0%': { backgroundPosition: '0px 0px' },
+          '100%': { backgroundPosition: '44px 44px' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.25s ease-out both',
@@ -82,6 +86,8 @@ export default {
         'grow-x': 'grow-x 1s cubic-bezier(0.22,1,0.36,1) both',
         'pulse-glow': 'pulse-glow 6s ease-in-out infinite',
         shimmer: 'shimmer 2.5s ease-in-out infinite',
+        'grid-pan': 'grid-pan 8s linear infinite',
+        'spin-slow': 'spin 32s linear infinite',
       },
     },
   },
