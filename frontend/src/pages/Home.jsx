@@ -79,11 +79,14 @@ function HeroPreview() {
           <div className="mt-4 rounded-xl border border-line p-4">
             <p className="mb-3 text-xs font-medium text-muted">Runs by agent</p>
             <div className="space-y-3">
-              {PREVIEW_AGENTS.map(([name, v]) => (
+              {PREVIEW_AGENTS.map(([name, v], i) => (
                 <div key={name} className="flex items-center gap-3">
                   <span className="w-28 shrink-0 text-xs text-muted">{name}</span>
                   <span className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-100">
-                    <span className="block h-full rounded-full bg-gradient-to-r from-zinc-700 to-zinc-900" style={{ width: `${v}%` }} />
+                    <span
+                      className="block h-full origin-left animate-grow-x rounded-full bg-gradient-to-r from-zinc-700 to-zinc-900"
+                      style={{ width: `${v}%`, animationDelay: `${0.6 + i * 0.12}s` }}
+                    />
                   </span>
                 </div>
               ))}
@@ -111,50 +114,70 @@ export default function Home() {
             WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 0%, #000, transparent 75%)',
           }}
         />
-        {/* soft glow */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(40% 35% at 20% 0%, rgba(39,39,42,0.08), transparent 60%), radial-gradient(40% 35% at 80% 5%, rgba(24,24,27,0.07), transparent 60%)',
-          }}
-        />
+        {/* floating glow orbs */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="animate-float-slow animate-pulse-glow absolute -left-10 top-[-60px] h-72 w-72 rounded-full bg-zinc-400/20 blur-3xl" />
+          <div className="animate-float animate-pulse-glow absolute right-[-40px] top-10 h-80 w-80 rounded-full bg-zinc-500/15 blur-3xl" />
+          <div className="animate-float-slow absolute bottom-10 left-1/3 h-64 w-64 rounded-full bg-zinc-300/15 blur-3xl" />
+        </div>
 
         <div className="mx-auto max-w-4xl px-4 pt-20 text-center sm:px-6 sm:pt-28">
-          <Badge tone="brand" className="mb-5">
+          <Badge tone="brand" className="mb-5 animate-fade-up">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
             AI agents for insurance &amp; trades
           </Badge>
-          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+          <h1
+            className="animate-fade-up text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl"
+            style={{ animationDelay: '0.08s' }}
+          >
             Deploy, manage &amp; monitor{' '}
-            <span className="bg-gradient-to-br from-zinc-600 via-zinc-800 to-black bg-clip-text text-transparent">
+            <span className="animate-gradient-x bg-gradient-to-r from-zinc-900 via-zinc-400 to-zinc-900 bg-[length:200%_auto] bg-clip-text text-transparent">
               AI agents
             </span>
             <br className="hidden sm:block" /> at scale
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
+          <p
+            className="mx-auto mt-5 max-w-2xl animate-fade-up text-lg text-muted"
+            style={{ animationDelay: '0.16s' }}
+          >
             One platform to build offensive and defensive automations, a RAG
             knowledge base, CRM integrations and compliance guardrails — for
             brokerages and trades teams.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div
+            className="mt-8 flex flex-wrap items-center justify-center gap-3 animate-fade-up"
+            style={{ animationDelay: '0.24s' }}
+          >
             <Link to="/app">
-              <Button size="lg">
+              <Button size="lg" className="transition-transform hover:scale-[1.03]">
                 Launch the platform <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Button size="lg" variant="secondary" onClick={downloadAll}>
+            <Button
+              size="lg"
+              variant="secondary"
+              onClick={downloadAll}
+              className="transition-transform hover:scale-[1.03]"
+            >
               <Download className="h-4 w-4" /> Download starter agents
             </Button>
           </div>
-          <p className="mt-4 text-xs text-subtle">
+          <p
+            className="mt-4 animate-fade-up text-xs text-subtle"
+            style={{ animationDelay: '0.32s' }}
+          >
             No credit card · runs in your browser · open source
           </p>
         </div>
 
         {/* product preview */}
-        <div className="mx-auto mt-14 max-w-5xl px-4 sm:px-6">
-          <HeroPreview />
+        <div
+          className="mx-auto mt-14 max-w-5xl animate-fade-up px-4 sm:px-6"
+          style={{ animationDelay: '0.42s' }}
+        >
+          <div className="animate-float">
+            <HeroPreview />
+          </div>
         </div>
         <div className="h-16 sm:h-24" />
       </section>
