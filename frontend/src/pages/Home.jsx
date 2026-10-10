@@ -15,6 +15,7 @@ import { LogoBadge } from '@/components/Logo'
 import { STARTER_AGENTS } from '@/data/starterAgents'
 import { AGENT_CATEGORIES } from '@/data/mockData'
 import { downloadJSON, slugify } from '@/lib/download'
+import { cn } from '@/lib/utils'
 
 const features = [
   { icon: Zap, title: 'Offensive automations', desc: 'Lead generation, outbound and renewal tracking that grows revenue.' },
@@ -115,35 +116,33 @@ export default function Home() {
             WebkitMaskImage: 'linear-gradient(to bottom, #000 70%, transparent 100%)',
           }}
         />
-        {/* spinning aurora shades */}
+        {/* spinning colored aurora (blue + red) */}
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div
-            className="animate-spin-slow absolute left-1/2 top-[-280px] h-[760px] w-[760px] -translate-x-1/2 rounded-full opacity-[0.45] blur-3xl"
+            className="animate-spin-slow absolute left-1/2 top-[-300px] h-[800px] w-[800px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
             style={{
               background:
-                'conic-gradient(from 0deg, rgba(39,39,42,0), rgba(39,39,42,0.55), rgba(24,24,27,0), rgba(63,63,70,0.5), rgba(39,39,42,0))',
-            }}
-          />
-          <div
-            className="animate-spin-slow absolute bottom-[-260px] left-1/4 h-[560px] w-[560px] rounded-full opacity-[0.34] blur-3xl"
-            style={{
-              animationDirection: 'reverse',
-              animationDuration: '40s',
-              background:
-                'conic-gradient(from 90deg, rgba(63,63,70,0), rgba(39,39,42,0.34), rgba(63,63,70,0), rgba(24,24,27,0.30), rgba(63,63,70,0))',
+                'conic-gradient(from 0deg, rgba(37,99,235,0), rgba(37,99,235,0.38), rgba(39,39,42,0), rgba(220,38,38,0.34), rgba(37,99,235,0))',
             }}
           />
         </div>
-        {/* floating glow orbs */}
+        {/* floating colored glow orbs */}
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          <div className="animate-float-slow animate-pulse-glow absolute -left-10 top-[-60px] h-72 w-72 rounded-full bg-zinc-400/30 blur-3xl" />
-          <div className="animate-float animate-pulse-glow absolute right-[-40px] top-10 h-80 w-80 rounded-full bg-zinc-500/25 blur-3xl" />
-          <div className="animate-float-slow absolute bottom-6 left-1/3 h-64 w-64 rounded-full bg-zinc-400/20 blur-3xl" />
+          <div className="animate-float-slow animate-pulse-glow absolute -left-16 top-[-70px] h-80 w-80 rounded-full bg-blue-500/20 blur-3xl" />
+          <div className="animate-float animate-pulse-glow absolute right-[-50px] top-6 h-96 w-96 rounded-full bg-red-500/15 blur-3xl" />
+          <div className="animate-float-slow absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-400/15 blur-3xl" />
+        </div>
+        {/* floating UI chips (background imagery) */}
+        <div className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
+          <FloatChip className="left-[4%] top-[24%]" style={{ animationDelay: '0.2s' }} icon={Zap} label="Lead qualified" tone="blue" />
+          <FloatChip className="right-[4%] top-[18%]" style={{ animationDelay: '0.6s' }} icon={MessagesSquare} label="Reply checked" tone="red" />
+          <FloatChip className="left-[7%] top-[58%]" style={{ animationDelay: '1s' }} icon={Workflow} label="CRM synced" tone="blue" />
+          <FloatChip className="right-[6%] top-[62%]" style={{ animationDelay: '1.4s' }} icon={BookOpen} label="Doc indexed" tone="red" />
         </div>
 
         <div className="mx-auto max-w-4xl px-4 pt-20 text-center sm:px-6 sm:pt-28">
           <Badge tone="brand" className="mb-5 animate-fade-up">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500" />
             AI agents for insurance &amp; trades
           </Badge>
           <h1
@@ -151,10 +150,13 @@ export default function Home() {
             style={{ animationDelay: '0.08s' }}
           >
             Deploy, manage &amp; monitor{' '}
-            <span className="animate-gradient-x bg-gradient-to-r from-zinc-900 via-zinc-400 to-zinc-900 bg-[length:200%_auto] bg-clip-text text-transparent">
+            <span className="animate-gradient-x bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 bg-[length:200%_auto] bg-clip-text text-transparent">
               AI agents
             </span>
-            <br className="hidden sm:block" /> at scale
+            <br className="hidden sm:block" /> at{' '}
+            <span className="text-transparent" style={{ WebkitTextStroke: '2px #27272a' }}>
+              scale
+            </span>
           </h1>
           <p
             className="mx-auto mt-5 max-w-2xl animate-fade-up text-lg text-muted"
@@ -237,7 +239,7 @@ export default function Home() {
             ['100%', 'Guardrailed'],
           ].map(([num, label]) => (
             <div key={label} className="px-4 py-8 text-center">
-              <p className="text-4xl font-extrabold tracking-tight tabular-nums sm:text-5xl">
+              <p className="bg-gradient-to-br from-blue-600 to-red-500 bg-clip-text text-4xl font-extrabold tracking-tight tabular-nums text-transparent sm:text-5xl">
                 {num}
               </p>
               <p className="mt-1 text-sm text-muted">{label}</p>
@@ -293,7 +295,7 @@ export default function Home() {
               Deploy.
             </span>{' '}
             Guardrail.{' '}
-            <span className="animate-gradient-x bg-gradient-to-r from-zinc-900 via-zinc-400 to-zinc-900 bg-[length:200%_auto] bg-clip-text text-transparent">
+            <span className="animate-gradient-x bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 bg-[length:200%_auto] bg-clip-text text-transparent">
               Scale.
             </span>
           </h2>
@@ -345,6 +347,25 @@ export default function Home() {
   )
 }
 
+function FloatChip({ className, style, icon: Icon, label, tone }) {
+  const red = tone === 'red'
+  return (
+    <div
+      className={cn(
+        'animate-float absolute flex items-center gap-2 rounded-xl border border-line bg-surface/90 px-3 py-2 shadow-card backdrop-blur',
+        className,
+      )}
+      style={style}
+    >
+      <span className={cn('flex h-6 w-6 items-center justify-center rounded-md', red ? 'bg-red-500/10' : 'bg-blue-500/10')}>
+        <Icon className={cn('h-3.5 w-3.5', red ? 'text-red-600' : 'text-blue-600')} />
+      </span>
+      <span className="text-xs font-medium text-content">{label}</span>
+      <span className={cn('h-1.5 w-1.5 rounded-full', red ? 'bg-red-500' : 'bg-blue-500')} />
+    </div>
+  )
+}
+
 const HUB_NODES = [
   { x: 78, y: 72, label: 'CRM' },
   { x: 402, y: 72, label: 'Email' },
@@ -364,18 +385,22 @@ function AgentHub() {
           <stop offset="0" stopColor="#3f3f46" />
           <stop offset="1" stopColor="#09090b" />
         </linearGradient>
+        <linearGradient id="conn" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#2563eb" stopOpacity="0.55" />
+          <stop offset="1" stopColor="#dc2626" stopOpacity="0.55" />
+        </linearGradient>
       </defs>
 
       {/* connectors */}
       {HUB_NODES.map((n, i) => (
-        <line key={`l${i}`} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke="#d4d4d8" strokeWidth="1.5" />
+        <line key={`l${i}`} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke="url(#conn)" strokeWidth="1.8" />
       ))}
 
       {/* satellite nodes */}
       {HUB_NODES.map((n, i) => (
         <g key={`n${i}`}>
           <rect x={n.x - 46} y={n.y - 17} width="92" height="34" rx="10" fill="#ffffff" stroke="#e4e4e7" />
-          <circle cx={n.x - 32} cy={n.y} r="3.5" fill="#27272a" />
+          <circle cx={n.x - 32} cy={n.y} r="4" fill={i % 2 === 0 ? '#2563eb' : '#dc2626'} />
           <text x={n.x + 4} y={n.y + 4} textAnchor="middle" fontSize="12.5" fontWeight="600" fill="#52525b" fontFamily="Inter, system-ui, sans-serif">
             {n.label}
           </text>
