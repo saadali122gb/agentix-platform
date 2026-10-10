@@ -8,6 +8,7 @@ import {
   Lock,
   Workflow,
   MessagesSquare,
+  Check,
 } from 'lucide-react'
 import { Button, Badge } from '@/components/ui'
 import { LogoBadge } from '@/components/Logo'
@@ -226,6 +227,79 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Stats band (typographic) */}
+      <section className="border-y border-line bg-surface">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-line sm:grid-cols-4 sm:divide-x">
+          {[
+            ['6+', 'Pre-built agents'],
+            ['4', 'Agent categories'],
+            ['24/7', 'Automation'],
+            ['100%', 'Guardrailed'],
+          ].map(([num, label]) => (
+            <div key={label} className="px-4 py-8 text-center">
+              <p className="text-4xl font-extrabold tracking-tight tabular-nums sm:text-5xl">
+                {num}
+              </p>
+              <p className="mt-1 text-sm text-muted">{label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Typographic showcase + illustration */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-subtle">
+              One platform
+            </p>
+            <h2 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl">
+              From{' '}
+              <span className="italic text-muted">lead</span> to{' '}
+              <span
+                className="text-transparent"
+                style={{ WebkitTextStroke: '1.5px #27272a' }}
+              >
+                renewal
+              </span>
+              <br /> — automated &amp; compliant.
+            </h2>
+            <p className="mt-5 max-w-md text-lg text-muted">
+              Agents orchestrate your CRM, email, knowledge base and chat — while
+              a compliance layer checks every reply, so nothing risky ever goes out.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {['Connect your CRM & channels', 'Ground answers in your documents', 'Guardrails on every response'].map((t) => (
+                <li key={t} className="flex items-center gap-2.5 text-sm font-medium">
+                  <Check className="h-4 w-4 text-brand-600" /> {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-0 -z-10 animate-pulse-glow rounded-full bg-zinc-300/30 blur-3xl" />
+            <AgentHub />
+          </div>
+        </div>
+      </section>
+
+      {/* Big typographic statement */}
+      <section className="border-y border-line bg-surface">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+          <h2 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
+            Build.{' '}
+            <span className="text-transparent" style={{ WebkitTextStroke: '2px #27272a' }}>
+              Deploy.
+            </span>{' '}
+            Guardrail.{' '}
+            <span className="animate-gradient-x bg-gradient-to-r from-zinc-900 via-zinc-400 to-zinc-900 bg-[length:200%_auto] bg-clip-text text-transparent">
+              Scale.
+            </span>
+          </h2>
+        </div>
+      </section>
+
       {/* Downloadable agents */}
       <section className="border-y border-line bg-surface/50">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -268,5 +342,52 @@ export default function Home() {
         </Link>
       </section>
     </>
+  )
+}
+
+const HUB_NODES = [
+  { x: 78, y: 72, label: 'CRM' },
+  { x: 402, y: 72, label: 'Email' },
+  { x: 430, y: 200, label: 'Knowledge' },
+  { x: 380, y: 330, label: 'Slack' },
+  { x: 100, y: 330, label: 'Teams' },
+  { x: 50, y: 200, label: 'Docs' },
+]
+
+function AgentHub() {
+  const cx = 240
+  const cy = 200
+  return (
+    <svg viewBox="0 0 480 400" className="w-full" fill="none" role="img" aria-label="Agent orchestration">
+      <defs>
+        <linearGradient id="hubGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#3f3f46" />
+          <stop offset="1" stopColor="#09090b" />
+        </linearGradient>
+      </defs>
+
+      {/* connectors */}
+      {HUB_NODES.map((n, i) => (
+        <line key={`l${i}`} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke="#d4d4d8" strokeWidth="1.5" />
+      ))}
+
+      {/* satellite nodes */}
+      {HUB_NODES.map((n, i) => (
+        <g key={`n${i}`}>
+          <rect x={n.x - 46} y={n.y - 17} width="92" height="34" rx="10" fill="#ffffff" stroke="#e4e4e7" />
+          <circle cx={n.x - 32} cy={n.y} r="3.5" fill="#27272a" />
+          <text x={n.x + 4} y={n.y + 4} textAnchor="middle" fontSize="12.5" fontWeight="600" fill="#52525b" fontFamily="Inter, system-ui, sans-serif">
+            {n.label}
+          </text>
+        </g>
+      ))}
+
+      {/* center hub */}
+      <rect x={cx - 36} y={cy - 36} width="72" height="72" rx="19" fill="url(#hubGrad)" />
+      <svg x={cx - 18} y={cy - 18} width="36" height="36" viewBox="0 0 24 24" fill="#ffffff">
+        <path d="M13.2 2c.38 4.5 2.3 6.42 6.8 6.8-4.5.38-6.42 2.3-6.8 6.8-.38-4.5-2.3-6.42-6.8-6.8 4.5-.38 6.42-2.3 6.8-6.8Z" />
+        <path d="M6.6 13.6c.2 2.3 1.3 3.4 3.6 3.6-2.3.2-3.4 1.3-3.6 3.6-.2-2.3-1.3-3.4-3.6-3.6 2.3-.2 3.4-1.3 3.6-3.6Z" opacity="0.72" />
+      </svg>
+    </svg>
   )
 }
